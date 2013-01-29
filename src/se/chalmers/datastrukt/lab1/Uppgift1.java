@@ -99,10 +99,7 @@ public class Uppgift1 {
 	}
 
 	public boolean hasNext() { // rätt metodsignatur?
-		return (pointer + 1 <= numberOfElements);
-		// return (p >= 0 || p <= numberOfElements); // kastar exceptions på
-		// andra
-		// ställen
+		return (pointer >= 0 || pointer < numberOfElements);
 	}
 
 	public void addAfterP(int index, String element) {
