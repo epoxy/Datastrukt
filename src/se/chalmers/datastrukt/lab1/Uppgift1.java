@@ -10,7 +10,7 @@ public class Uppgift1 {
 	private int capacity;
 
 	public Uppgift1() {
-		this.capacity = 10;
+		this(10);
 	}
 	public Uppgift1(int length) {
 		this.stringArr = new String[length];
