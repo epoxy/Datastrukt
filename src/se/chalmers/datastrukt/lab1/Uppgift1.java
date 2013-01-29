@@ -99,7 +99,7 @@ public class Uppgift1 {
 	}
 
 	public boolean hasNext() { // rŠtt metodsignatur?
-		return (pointer >= 0 || pointer < numberOfElements);
+		return (pointer >= 0 && pointer < numberOfElements);
 	}
 
 	public void addAfterP(int index, String element) {
@@ -218,5 +218,9 @@ public class Uppgift1 {
 		uppgB.setP(4);
 		System.out.println("*" + uppgB.pointer + " # bör skriva ut 4");
 		
+		// Test for hasNext
+		System.out.println("*" + uppgB.hasNext() + " # bör vara true");
+		uppgB.setP(10);
+		System.out.println("*" + uppgB.hasNext() + " # bör vara false");
 	}
 }
