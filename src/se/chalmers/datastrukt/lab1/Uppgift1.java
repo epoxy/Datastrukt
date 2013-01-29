@@ -21,14 +21,14 @@ public class Uppgift1 {
 	public void addFirst(String element) {
 		int tmpCount = 1;
 		// int number = numberOfElements(stringArr);
-		
+
 		if (numberOfElements == capacity) {
 			reallocate();
 		}
 		tmpStringArr = new String[capacity];
 		for (int i = 0; i < stringArr.length; i++) {
-				tmpStringArr[tmpCount] = stringArr[i];
-				tmpCount++;
+			tmpStringArr[tmpCount] = stringArr[i];
+			tmpCount++;
 
 		}
 		tmpStringArr[0] = element;
@@ -62,12 +62,13 @@ public class Uppgift1 {
 	}
 
 	public void removeFirst() {
-		if (!empty()) {
-			int nbrOfElem = numberOfElements - 1;
-			tmpStringArr = new String[nbrOfElem];
-			System.arraycopy(stringArr, 1, tmpStringArr, 0, nbrOfElem);
-			stringArr = tmpStringArr;
+		if(empty()){
+			throw new ArrayIndexOutOfBoundsException("Remove failed, array already empty");
 		}
+		int nbrOfElem = numberOfElements - 1;
+		tmpStringArr = new String[nbrOfElem];
+		System.arraycopy(stringArr, 1, tmpStringArr, 0, nbrOfElem);
+		stringArr = tmpStringArr;
 		if (stringArr.length > 0) {
 			numberOfElements--;
 		}
@@ -125,7 +126,7 @@ public class Uppgift1 {
 				stringArr[i] = stringArr[i - 1];
 			}
 			stringArr[index] = element; // capacity vad Šr
-										// det!?!?!?!??!?!?!?!?!
+			// det!?!?!?!??!?!?!?!?!
 			// tmpStringArr = new String[numberOfElements + 1];
 			// for (int i = 0; i < index; i++) {
 			// tmpStringArr[i] = stringArr[i];
@@ -202,13 +203,13 @@ public class Uppgift1 {
 		// Test for method existP
 		System.out.println("*" + uppg.existP("Anton") + " # bšr vara true");
 		System.out.println("*" + uppg.existP("Adam") + " # bšr vara false");
-		
+
 		System.out.println("//Testa reallocate");
 		Uppgift1 uppg1 = new Uppgift1();
 		System.out.println("Antal element, bör vara 10: " + uppg1.stringArr.length);
 		uppg1.reallocate();
 		System.out.println("Antal element, bör vara 20: " + uppg1.stringArr.length);
-		
-		
+
+
 	}
 }
