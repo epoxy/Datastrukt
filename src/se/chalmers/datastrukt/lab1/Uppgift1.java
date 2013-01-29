@@ -107,7 +107,7 @@ public class Uppgift1 {
 			throw new IndexOutOfBoundsException();
 		}
 		if (numberOfElements == capacity) {//If the capacity is filled with 
-										   //elements the capacity should be reallocated
+			//elements the capacity should be reallocated
 			reallocate();
 		}
 		/*Running the array backwards, shifting the elements one step to the right.
@@ -118,7 +118,6 @@ public class Uppgift1 {
 		}
 		stringArr[index] = element; // capacity vad Šr
 		numberOfElements++;
-
 	}
 
 	private void reallocate() {
@@ -131,25 +130,29 @@ public class Uppgift1 {
 	}
 
 	public String get(int p) {
-		if (p >= 0 || p <= numberOfElements) {
+		if (p < 0 || p > numberOfElements) {
 			throw new IndexOutOfBoundsException();
 		}
-		return stringArr[p]; // + 1?
+		return stringArr[p];
 	}
 
 	public void moveP(int val) {
-		if (pointer + val > 0 || pointer + val <= numberOfElements) {
+		if (pointer + val < 0 || pointer + val > numberOfElements) {
 			throw new IndexOutOfBoundsException();
-		} else {
-			pointer += val;
 		}
+		pointer += val;
 	}
 
 	public void setPtoStringPos(String elem) {
+		boolean isChanged = false;
 		for (int i = 0; i < stringArr.length; i++) {
 			if (elem.equals(stringArr[i])) {
 				pointer = i;
+				isChanged = true;
 			}
+		}
+		if(!isChanged){
+			throw new IllegalArgumentException("No such String, unable to set pointer");
 		}
 	}
 
@@ -214,10 +217,30 @@ public class Uppgift1 {
 		System.out.println("*" + uppgB.hasNext() + " # bör vara true");
 		uppgB.setP(10);
 		System.out.println("*" + uppgB.hasNext() + " # bör vara false");
-		
+
 		// Test for addAfterP
 		uppgB.addAfterP(5, "Sven");
-		System.out.println("*" + uppgB + " # bör skriva ut Sven på 6:e platsen, alltså efter Felix");
+		System.out.println("*" + uppgB + " # bör skriva ut Sven på pekarposition 5, alltså efter Felix");
+
+		// Test for get
+		System.out.println("*" + uppgB.get(2) + " # bör returnera Cecilia, som ju ligger till höger om pekaren");
+		//Testar att IndexOutOfBoundsException kastas(bortkommenterad för att körning ska gå igenom för andra test)
+		//System.out.println("*" + uppgB.get(13) + " # bör returnera Cecilia, som ju ligger till höger om pekaren");
+
+		// Test for moveP
+		uppgB.setP(0);
+		uppgB.moveP(5); //Flyttar pekaren 5 steg åt höger
+		System.out.println("*" + uppgB.pointer + " # bör vara 5");
+		uppgB.moveP(-2); //Flyttar pekaren två steg åt vänster
+		System.out.println("*" + uppgB.pointer + " # bör vara 3");
 		
+		// Test for setPtoStringPos
+		uppgB.setPtoStringPos("David"); //Setting the pointer to the left of the String "David" if it exists in the array
+		System.out.println("*" + uppgB.pointer + " # bör vara 3");
+		uppgB.setPtoStringPos("Julius");
+		System.out.println("*" + uppgB.pointer + " # bör vara 10");
+		//Kollar att exception kastas(bortkommenterad för att övrig kod ska köras
+		//uppgB.setPtoStringPos("Nisse");
+		//System.out.println("*" + uppgB.pointer + " # bör vara 3");
 	}
 }
