@@ -14,7 +14,8 @@ public class Uppgift1 {
 
 	public Uppgift1(int length) {
 		this.stringArr = new String[length];
-		this.capacity = length;
+		capacity = length;
+
 	}
 
 	public void addFirst(String element) {
@@ -143,11 +144,10 @@ public class Uppgift1 {
 		System.out.println(capacity);
 		capacity = capacity * 2;
 		tmpStringArr = new String[capacity];
-		for (int i = 0; i < stringArr.length; i++) {
+		for (int i = 0; i < stringArr.length-1; i++) {
 			tmpStringArr[i] = stringArr[i];
 		}
 		stringArr = tmpStringArr;
-
 	}
 
 	public String get(int p) {
@@ -202,5 +202,13 @@ public class Uppgift1 {
 		// Test for method existP
 		System.out.println("*" + uppg.existP("Anton") + " # bšr vara true");
 		System.out.println("*" + uppg.existP("Adam") + " # bšr vara false");
+		
+		System.out.println("//Testa reallocate");
+		Uppgift1 uppg1 = new Uppgift1();
+		System.out.println("Antal element, bör vara 10: " + uppg1.stringArr.length);
+		uppg1.reallocate();
+		System.out.println("Antal element, bör vara 20: " + uppg1.stringArr.length);
+		
+		
 	}
 }
