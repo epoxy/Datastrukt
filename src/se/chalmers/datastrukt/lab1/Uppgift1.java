@@ -110,21 +110,13 @@ public class Uppgift1 {
 										   //elements the capacity should be reallocated
 			reallocate();
 		}
-		// tmpStringArr = new String[numberOfElements + 1];
+		/*Running the array backwards, shifting the elements one step to the right.
+		When the position of the pointerindex is reached the new String-element is added there,
+		which is the same as adding it to the right of the thought pointer*/
 		for (int i = numberOfElements; i > index; i--) {
 			stringArr[i] = stringArr[i - 1];
 		}
 		stringArr[index] = element; // capacity vad Šr
-		// det!?!?!?!??!?!?!?!?!
-		// tmpStringArr = new String[numberOfElements + 1];
-		// for (int i = 0; i < index; i++) {
-		// tmpStringArr[i] = stringArr[i];
-		// }
-		// tmpStringArr[index] = element;
-		// for (int i = index; i < numberOfElements; i++) {
-		// tmpStringArr[i + 1] = stringArr[i];
-		// }
-		// stringArr = tmpStringArr;
 		numberOfElements++;
 
 	}
@@ -222,5 +214,10 @@ public class Uppgift1 {
 		System.out.println("*" + uppgB.hasNext() + " # bör vara true");
 		uppgB.setP(10);
 		System.out.println("*" + uppgB.hasNext() + " # bör vara false");
+		
+		// Test for addAfterP
+		uppgB.addAfterP(5, "Sven");
+		System.out.println("*" + uppgB + " # bör skriva ut Sven på 6:e platsen, alltså efter Felix");
+		
 	}
 }
