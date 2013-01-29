@@ -20,9 +20,7 @@ public class Uppgift1 {
 
 	public void addFirst(String element) {
 		int tmpCount = 1;
-		// int number = numberOfElements(stringArr);
-
-		if (numberOfElements == capacity) {
+		if (numberOfElements >= capacity) {
 			reallocate();
 		}
 		tmpStringArr = new String[capacity];
@@ -30,13 +28,9 @@ public class Uppgift1 {
 		for (int i = 0; i < numberOfElements; i++) {
 				tmpStringArr[tmpCount] = stringArr[i];
 				tmpCount++;
-
 		}
-		
 		stringArr = tmpStringArr;
-
 		numberOfElements++;
-
 	}
 
 	// private int numberOfElements(String[] strArray) {
@@ -86,16 +80,14 @@ public class Uppgift1 {
 
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-
 		for (int i = 0; i < numberOfElements; i++) {
 			stringBuilder.append(stringArr[i]).toString();
 			if (i < numberOfElements - 1) {
-				stringBuilder.append(" , ");
+				stringBuilder.append(", ");
 			}
 		}
 		String str = "[ " + stringBuilder.toString();
 		str += " ] ";
-
 		return str;
 	}
 
@@ -143,7 +135,6 @@ public class Uppgift1 {
 	}
 
 	private void reallocate() {
-		System.out.println(capacity);
 		capacity = capacity * 2;
 		tmpStringArr = new String[capacity];
 		for (int i = 0; i < numberOfElements; i++) {
@@ -180,38 +171,36 @@ public class Uppgift1 {
 		Uppgift1 uppg = new Uppgift1(stringLength);
 
 		// First test for method empty
-		System.out.println("*" + uppg.empty() + " # bšr vara true");
+		System.out.println("*" + uppg.empty() + " # bör vara true");
 
 		// Test for method addFirst
-		uppg.addFirst("hej");
-		System.out.println(uppg);
+		uppg.addFirst("Erland");
+		System.out.println("*" + uppg + " # Bör skriva ut: [ Erland ]");
 		uppg.addFirst("Tomas");
 		uppg.addFirst("Anton");
 		uppg.addFirst("Henrik");
-		//uppg.addAfterP(2, "element");
-		uppg.addFirst("hejsan");
-		System.out.println("*" + uppg + " # bšr vara hejsan fšrst");
+		System.out.println("*" + uppg + " # bör vara Henrik först");
 
 		// Second test for method empty
-		System.out.println("*" + uppg.empty() + " # bšr vara false");
+		System.out.println("*" + uppg.empty() + " # bör vara false");
 
 		// Test for method getFirst
-		System.out.println("*" + uppg.getFirst() + " # bšr vara hejsan");
+		System.out.println("*" + uppg.getFirst() + " # bör vara Henrik");
 
 		// Test for method removeFirst
 		uppg.removeFirst();
-		System.out.println("*" + uppg + " # bšr vara Henrik fšrst");
+		System.out.println("*" + uppg + " # bör vara Anton först");
 
 		// Test for method existP
-		System.out.println("*" + uppg.existP("Anton") + " # bšr vara true");
-		System.out.println("*" + uppg.existP("Adam") + " # bšr vara false");
+		System.out.println("*" + uppg.existP("Anton") + " # bör vara true");
+		System.out.println("*" + uppg.existP("Adam") + " # bör vara false");
+		
+		// Test for toString
+		System.out.println("*" + uppg + " # bör vara [ Anton, Tomas, Erland ]");
 
-		System.out.println("//Testa reallocate");
-		Uppgift1 uppg1 = new Uppgift1();
-		System.out.println("Antal element, bör vara 10: " + uppg1.stringArr.length);
-		uppg1.reallocate();
-		System.out.println("Antal element, bör vara 20: " + uppg1.stringArr.length);
-
-
+		// Test for reallocate
+		System.out.println("*" + uppg.capacity + " # bör vara 10");
+		uppg.reallocate();
+		System.out.println("*" + uppg.capacity + " # bör vara 20");
 	}
 }
