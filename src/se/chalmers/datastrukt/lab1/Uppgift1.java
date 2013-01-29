@@ -26,12 +26,13 @@ public class Uppgift1 {
 			reallocate();
 		}
 		tmpStringArr = new String[capacity];
-		for (int i = 0; i < stringArr.length; i++) {
-			tmpStringArr[tmpCount] = stringArr[i];
-			tmpCount++;
+		tmpStringArr[0] = element;
+		for (int i = 0; i < numberOfElements; i++) {
+				tmpStringArr[tmpCount] = stringArr[i];
+				tmpCount++;
 
 		}
-		tmpStringArr[0] = element;
+		
 		stringArr = tmpStringArr;
 
 		numberOfElements++;
@@ -86,9 +87,9 @@ public class Uppgift1 {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 
-		for (int i = 0; i < stringArr.length; i++) {
+		for (int i = 0; i < numberOfElements; i++) {
 			stringBuilder.append(stringArr[i]).toString();
-			if (i < stringArr.length - 1) {
+			if (i < numberOfElements - 1) {
 				stringBuilder.append(" , ");
 			}
 		}
@@ -145,7 +146,7 @@ public class Uppgift1 {
 		System.out.println(capacity);
 		capacity = capacity * 2;
 		tmpStringArr = new String[capacity];
-		for (int i = 0; i < stringArr.length-1; i++) {
+		for (int i = 0; i < numberOfElements; i++) {
 			tmpStringArr[i] = stringArr[i];
 		}
 		stringArr = tmpStringArr;
@@ -183,10 +184,11 @@ public class Uppgift1 {
 
 		// Test for method addFirst
 		uppg.addFirst("hej");
+		System.out.println(uppg);
 		uppg.addFirst("Tomas");
 		uppg.addFirst("Anton");
 		uppg.addFirst("Henrik");
-		uppg.addAfterP(2, "element");
+		//uppg.addAfterP(2, "element");
 		uppg.addFirst("hejsan");
 		System.out.println("*" + uppg + " # bšr vara hejsan fšrst");
 
