@@ -26,8 +26,8 @@ public class Uppgift1 {
 		tmpStringArr = new String[capacity];
 		tmpStringArr[0] = element;
 		for (int i = 0; i < numberOfElements; i++) {
-				tmpStringArr[tmpCount] = stringArr[i];
-				tmpCount++;
+			tmpStringArr[tmpCount] = stringArr[i];
+			tmpCount++;
 		}
 		stringArr = tmpStringArr;
 		numberOfElements++;
@@ -98,35 +98,35 @@ public class Uppgift1 {
 		pointer = p;
 	}
 
-	public boolean hasNext() { // rŠtt metodsignatur?
+	public boolean hasNext() {
 		return (pointer >= 0 && pointer < numberOfElements);
 	}
 
 	public void addAfterP(int index, String element) {
 		if (index < 0 || index > numberOfElements) {
 			throw new IndexOutOfBoundsException();
-		} else {
-			if (numberOfElements == capacity) {
-				reallocate();
-			}
-			// tmpStringArr = new String[numberOfElements + 1];
-			for (int i = numberOfElements; i > index; i--) {
-				stringArr[i] = stringArr[i - 1];
-			}
-			stringArr[index] = element; // capacity vad Šr
-			// det!?!?!?!??!?!?!?!?!
-			// tmpStringArr = new String[numberOfElements + 1];
-			// for (int i = 0; i < index; i++) {
-			// tmpStringArr[i] = stringArr[i];
-			// }
-			// tmpStringArr[index] = element;
-			// for (int i = index; i < numberOfElements; i++) {
-			// tmpStringArr[i + 1] = stringArr[i];
-			// }
-			// stringArr = tmpStringArr;
-			numberOfElements++;
-
 		}
+		if (numberOfElements == capacity) {//If the capacity is filled with 
+										   //elements the capacity should be reallocated
+			reallocate();
+		}
+		// tmpStringArr = new String[numberOfElements + 1];
+		for (int i = numberOfElements; i > index; i--) {
+			stringArr[i] = stringArr[i - 1];
+		}
+		stringArr[index] = element; // capacity vad Šr
+		// det!?!?!?!??!?!?!?!?!
+		// tmpStringArr = new String[numberOfElements + 1];
+		// for (int i = 0; i < index; i++) {
+		// tmpStringArr[i] = stringArr[i];
+		// }
+		// tmpStringArr[index] = element;
+		// for (int i = index; i < numberOfElements; i++) {
+		// tmpStringArr[i + 1] = stringArr[i];
+		// }
+		// stringArr = tmpStringArr;
+		numberOfElements++;
+
 	}
 
 	private void reallocate() {
@@ -190,7 +190,7 @@ public class Uppgift1 {
 		// Test for method existP
 		System.out.println("*" + uppgA.existP("Anton") + " # bör vara true");
 		System.out.println("*" + uppgA.existP("Adam") + " # bör vara false");
-		
+
 		// Test for toString
 		System.out.println("*" + uppgA + " # bör vara [ Anton, Tomas, Erland ]");
 
@@ -198,8 +198,8 @@ public class Uppgift1 {
 		System.out.println("*" + uppgA.capacity + " # bör vara 10");
 		uppgA.reallocate();
 		System.out.println("*" + uppgA.capacity + " # bör vara 20");
-		
-		
+
+
 		//b)
 		Uppgift1 uppgB = new Uppgift1();
 		uppgB.addFirst("Julius");
@@ -213,11 +213,11 @@ public class Uppgift1 {
 		uppgB.addFirst("Bertil");
 		uppgB.addFirst("Anton");
 		System.out.println("*" + uppgB + " # bör skriva ut 10 namn i alfabetisk ordning");
-		
+
 		// Test for setP
 		uppgB.setP(4);
 		System.out.println("*" + uppgB.pointer + " # bör skriva ut 4");
-		
+
 		// Test for hasNext
 		System.out.println("*" + uppgB.hasNext() + " # bör vara true");
 		uppgB.setP(10);
