@@ -5,7 +5,7 @@ public class Uppgift1 {
 	private String[] stringArr;
 	private String[] tmpStringArr;
 	private int numberOfElements = 0;
-	private int arrayPosition;
+	private int pointer;
 	private int capacity;
 
 	public Uppgift1() {
@@ -92,16 +92,14 @@ public class Uppgift1 {
 	}
 
 	public void setP(int p) {
-		if (p >= 0 || p <= numberOfElements) {
-			throw new IndexOutOfBoundsException();// bästa lösning?
-		} else {
-			arrayPosition = p;
+		if (p < 0 || p > numberOfElements) {
+			throw new IndexOutOfBoundsException();
 		}
-
+		pointer = p;
 	}
 
 	public boolean hasNext() { // rätt metodsignatur?
-		return (arrayPosition + 1 <= numberOfElements);
+		return (pointer + 1 <= numberOfElements);
 		// return (p >= 0 || p <= numberOfElements); // kastar exceptions på
 		// andra
 		// ställen
@@ -151,56 +149,77 @@ public class Uppgift1 {
 	}
 
 	public void moveP(int val) {
-		if (arrayPosition + val > 0 || arrayPosition + val <= numberOfElements) {
+		if (pointer + val > 0 || pointer + val <= numberOfElements) {
 			throw new IndexOutOfBoundsException();
 		} else {
-			arrayPosition += val;
+			pointer += val;
 		}
 	}
 
 	public void setPtoStringPos(String elem) {
 		for (int i = 0; i < stringArr.length; i++) {
 			if (elem.equals(stringArr[i])) {
-				arrayPosition = i;
+				pointer = i;
 			}
 		}
 	}
 
 	public static void main(String[] args) {
 		int stringLength = 10;
-		Uppgift1 uppg = new Uppgift1(stringLength);
+		Uppgift1 uppgA = new Uppgift1(stringLength);
 
+		//a)
 		// First test for method empty
-		System.out.println("*" + uppg.empty() + " # bˆr vara true");
+		System.out.println("*" + uppgA.empty() + " # bˆr vara true");
 
 		// Test for method addFirst
-		uppg.addFirst("Erland");
-		System.out.println("*" + uppg + " # Bˆr skriva ut: [ Erland ]");
-		uppg.addFirst("Tomas");
-		uppg.addFirst("Anton");
-		uppg.addFirst("Henrik");
-		System.out.println("*" + uppg + " # bˆr vara Henrik fˆrst");
+		uppgA.addFirst("Erland");
+		System.out.println("*" + uppgA + " # Bˆr skriva ut: [ Erland ]");
+		uppgA.addFirst("Tomas");
+		uppgA.addFirst("Anton");
+		uppgA.addFirst("Henrik");
+		System.out.println("*" + uppgA + " # bˆr vara Henrik fˆrst");
 
 		// Second test for method empty
-		System.out.println("*" + uppg.empty() + " # bˆr vara false");
+		System.out.println("*" + uppgA.empty() + " # bˆr vara false");
 
 		// Test for method getFirst
-		System.out.println("*" + uppg.getFirst() + " # bˆr vara Henrik");
+		System.out.println("*" + uppgA.getFirst() + " # bˆr vara Henrik");
 
 		// Test for method removeFirst
-		uppg.removeFirst();
-		System.out.println("*" + uppg + " # bˆr vara Anton fˆrst");
+		uppgA.removeFirst();
+		System.out.println("*" + uppgA + " # bˆr vara Anton fˆrst");
 
 		// Test for method existP
-		System.out.println("*" + uppg.existP("Anton") + " # bˆr vara true");
-		System.out.println("*" + uppg.existP("Adam") + " # bˆr vara false");
+		System.out.println("*" + uppgA.existP("Anton") + " # bˆr vara true");
+		System.out.println("*" + uppgA.existP("Adam") + " # bˆr vara false");
 		
 		// Test for toString
-		System.out.println("*" + uppg + " # bˆr vara [ Anton, Tomas, Erland ]");
+		System.out.println("*" + uppgA + " # bˆr vara [ Anton, Tomas, Erland ]");
 
 		// Test for reallocate
-		System.out.println("*" + uppg.capacity + " # bˆr vara 10");
-		uppg.reallocate();
-		System.out.println("*" + uppg.capacity + " # bˆr vara 20");
+		System.out.println("*" + uppgA.capacity + " # bˆr vara 10");
+		uppgA.reallocate();
+		System.out.println("*" + uppgA.capacity + " # bˆr vara 20");
+		
+		
+		//b)
+		Uppgift1 uppgB = new Uppgift1();
+		uppgB.addFirst("Julius");
+		uppgB.addFirst("Ingvar");
+		uppgB.addFirst("Henrik");
+		uppgB.addFirst("Gustav");
+		uppgB.addFirst("Felix");
+		uppgB.addFirst("Erik");
+		uppgB.addFirst("David");
+		uppgB.addFirst("Cecilia");
+		uppgB.addFirst("Bertil");
+		uppgB.addFirst("Anton");
+		System.out.println("*" + uppgB + " # bˆr skriva ut 10 namn i alfabetisk ordning");
+		
+		// Test for setP
+		uppgB.setP(4);
+		System.out.println("*" + uppgB.pointer + " # bˆr skriva ut 4");
+		
 	}
 }
