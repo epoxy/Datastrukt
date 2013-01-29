@@ -1,6 +1,5 @@
 package se.chalmers.datastrukt.lab1;
 
-
 public class Uppgift1 {
 
 	private String[] stringArr;
@@ -12,20 +11,24 @@ public class Uppgift1 {
 	public Uppgift1() {
 		this(10);
 	}
+
 	public Uppgift1(int length) {
 		this.stringArr = new String[length];
+		this.capacity = length;
 	}
 
 	public void addFirst(String element) {
 		int tmpCount = 1;
 		// int number = numberOfElements(stringArr);
-		tmpStringArr = new String[numberOfElements + 1];
+		
+		if (numberOfElements == capacity) {
+			reallocate();
+		}
+		tmpStringArr = new String[capacity];
 		for (int i = 0; i < stringArr.length; i++) {
-			if (stringArr[i] != null) {
 				tmpStringArr[tmpCount] = stringArr[i];
 				tmpCount++;
-			}
-			
+
 		}
 		tmpStringArr[0] = element;
 		stringArr = tmpStringArr;
@@ -92,6 +95,7 @@ public class Uppgift1 {
 
 		return str;
 	}
+
 	public void setP(int p) {
 		if (p >= 0 || p <= numberOfElements) {
 			throw new IndexOutOfBoundsException();// bŠsta lšsning?
@@ -109,7 +113,7 @@ public class Uppgift1 {
 	}
 
 	public void addAfterP(int index, String element) {
-		if (index >= 0 || index <= numberOfElements) {
+		if (index < 0 || index > numberOfElements) {
 			throw new IndexOutOfBoundsException();
 		} else {
 			if (numberOfElements == capacity) {
@@ -168,6 +172,7 @@ public class Uppgift1 {
 			}
 		}
 	}
+
 	public static void main(String[] args) {
 		int stringLength = 10;
 		Uppgift1 uppg = new Uppgift1(stringLength);
@@ -180,6 +185,7 @@ public class Uppgift1 {
 		uppg.addFirst("Tomas");
 		uppg.addFirst("Anton");
 		uppg.addFirst("Henrik");
+		uppg.addAfterP(2, "element");
 		uppg.addFirst("hejsan");
 		System.out.println("*" + uppg + " # bšr vara hejsan fšrst");
 
