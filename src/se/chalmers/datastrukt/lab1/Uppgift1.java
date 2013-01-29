@@ -8,16 +8,23 @@ public class Uppgift1 {
 	private int pointer;
 	private int capacity;
 
+	/**Default-constructor
+	 */
 	public Uppgift1() {
 		this(10);
 	}
 
+	/**Constructor taking in an argument of the wanted length of the array
+	 */
 	public Uppgift1(int length) {
 		this.stringArr = new String[length];
 		capacity = length;
 
 	}
 
+	/**Adding an element at the position in the beginning of the array. 
+	 *All other elements are moved one step to the right
+	 */
 	public void addFirst(String element) {
 		int tmpCount = 1;
 		if (numberOfElements >= capacity) {
@@ -27,22 +34,14 @@ public class Uppgift1 {
 		tmpStringArr[0] = element;
 		for (int i = 0; i < numberOfElements; i++) {
 			tmpStringArr[tmpCount] = stringArr[i];
-			tmpCount++;
+			tmpCount++; //incrementing to adjust the elements movement to the right
 		}
 		stringArr = tmpStringArr;
 		numberOfElements++;
 	}
 
-	// private int numberOfElements(String[] strArray) {
-	// int number = 0;
-	// for (int i = 0; i < strArray.length; i++) {
-	// if (strArray[i] != null) {
-	// number++;
-	// }
-	// }
-	// return number;
-	// }
-
+	/**Checking if the array is empty, that is, has no elements.
+	 */
 	public boolean empty() {
 		for (int i = 0; i < stringArr.length; i++) {
 			if (stringArr[i] != null) {
@@ -52,10 +51,17 @@ public class Uppgift1 {
 		return true;
 	}
 
+	/**Returning the first string of the array
+	 */
 	public String getFirst() {
+		if(empty()){
+			throw new ArrayIndexOutOfBoundsException("Array is empty");
+		}
 		return stringArr[0];
 	}
 
+	/**Removing the first element of the array, adjusting all other elements one step to the left
+	 */
 	public void removeFirst() {
 		if(empty()){
 			throw new ArrayIndexOutOfBoundsException("Remove failed, array already empty");
@@ -69,6 +75,11 @@ public class Uppgift1 {
 		}
 	}
 
+	/**Checking if a String exists in the array
+	 * 
+	 * @param elem
+	 * @return true if the String exists in the array
+	 */
 	public boolean existP(String elem) {
 		for (int i = 0; i < stringArr.length; i++) {
 			if (elem.equals(stringArr[i])) {
@@ -78,6 +89,9 @@ public class Uppgift1 {
 		return false;
 	}
 
+	/**Classic toString-method. Appending all array elements into one big String.
+	 * 
+	 */
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		for (int i = 0; i < numberOfElements; i++) {
@@ -91,6 +105,10 @@ public class Uppgift1 {
 		return str;
 	}
 
+	/**Setting the pointer to a chosen position
+	 * 
+	 * @param p the pointer position
+	 */
 	public void setP(int p) {
 		if (p < 0 || p > numberOfElements) {
 			throw new IndexOutOfBoundsException();
@@ -98,10 +116,20 @@ public class Uppgift1 {
 		pointer = p;
 	}
 
+	/**Checking if the array has an element to the right of the pointer
+	 * 
+	 * @return true if an element exists to the right of the pointer
+	 */
 	public boolean hasNext() {
 		return (pointer >= 0 && pointer < numberOfElements);
 	}
 
+	/**Adding a String at the chosen indexposition, moving all elements to the right one 
+	 * step to the right.
+	 * 
+	 * @param index
+	 * @param element
+	 */
 	public void addAfterP(int index, String element) {
 		if (index < 0 || index > numberOfElements) {
 			throw new IndexOutOfBoundsException();
@@ -120,6 +148,8 @@ public class Uppgift1 {
 		numberOfElements++;
 	}
 
+	/**Reallocating the capacity of the array by increasing its length to twice its length
+	 */
 	private void reallocate() {
 		capacity = capacity * 2;
 		tmpStringArr = new String[capacity];
@@ -129,13 +159,24 @@ public class Uppgift1 {
 		stringArr = tmpStringArr;
 	}
 
+	/**Returning the string to the right of a chosen pointerposition
+	 * 
+	 * @param p
+	 * @return
+	 */
 	public String get(int p) {
-		if (p < 0 || p > numberOfElements) {
+		if (!hasNext()) {
 			throw new IndexOutOfBoundsException();
 		}
 		return stringArr[p];
 	}
 
+	/**Moving the pointer a desired amount of steps to the left or right.
+	 * A negative number moves it to the left and a positive number moves 
+	 * it to the right.
+	 * 
+	 * @param val the chosen steps to move the pointer
+	 */
 	public void moveP(int val) {
 		if (pointer + val < 0 || pointer + val > numberOfElements) {
 			throw new IndexOutOfBoundsException();
@@ -143,6 +184,13 @@ public class Uppgift1 {
 		pointer += val;
 	}
 
+	/**Setting the pointer to the left of a chosen string, if it exists in the array.
+	 * 
+	 * @param elem the string element we want to determine the position of, to set the 
+	 * pointer to the left of it
+	 */
+	//Remark: The method existP is not used here since it would lead to running through the array 
+	//twice, which would be redundant.
 	public void setPtoStringPos(String elem) {
 		boolean isChanged = false;
 		for (int i = 0; i < stringArr.length; i++) {
@@ -157,6 +205,7 @@ public class Uppgift1 {
 	}
 
 	public static void main(String[] args) {
+		//Testcases
 		int stringLength = 10;
 		Uppgift1 uppgA = new Uppgift1(stringLength);
 
