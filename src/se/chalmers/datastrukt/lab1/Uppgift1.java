@@ -20,6 +20,7 @@ public class Uppgift1 {
 				tmpStringArr[tmpCount] = stringArr[i];
 				tmpCount++;
 			}
+			
 		}
 		tmpStringArr[0] = element;
 		stringArr = tmpStringArr;
