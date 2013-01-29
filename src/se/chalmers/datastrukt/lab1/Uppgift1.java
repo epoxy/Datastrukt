@@ -6,7 +6,12 @@ public class Uppgift1 {
 	private String[] stringArr;
 	private String[] tmpStringArr;
 	private int numberOfElements = 0;
+	private int arrayPosition;
+	private int capacity;
 
+	public Uppgift1() {
+		this.capacity = 10;
+	}
 	public Uppgift1(int length) {
 		this.stringArr = new String[length];
 	}
@@ -87,7 +92,82 @@ public class Uppgift1 {
 
 		return str;
 	}
+	public void setP(int p) {
+		if (p >= 0 || p <= numberOfElements) {
+			throw new IndexOutOfBoundsException();// bŠsta lšsning?
+		} else {
+			arrayPosition = p;
+		}
 
+	}
+
+	public boolean hasNext() { // rŠtt metodsignatur?
+		return (arrayPosition + 1 <= numberOfElements);
+		// return (p >= 0 || p <= numberOfElements); // kastar exceptions pŒ
+		// andra
+		// stŠllen
+	}
+
+	public void addAfterP(int index, String element) {
+		if (index >= 0 || index <= numberOfElements) {
+			throw new IndexOutOfBoundsException();
+		} else {
+			if (numberOfElements == capacity) {
+				reallocate();
+			}
+			// tmpStringArr = new String[numberOfElements + 1];
+			for (int i = numberOfElements; i > index; i--) {
+				stringArr[i] = stringArr[i - 1];
+			}
+			stringArr[index] = element; // capacity vad Šr
+										// det!?!?!?!??!?!?!?!?!
+			// tmpStringArr = new String[numberOfElements + 1];
+			// for (int i = 0; i < index; i++) {
+			// tmpStringArr[i] = stringArr[i];
+			// }
+			// tmpStringArr[index] = element;
+			// for (int i = index; i < numberOfElements; i++) {
+			// tmpStringArr[i + 1] = stringArr[i];
+			// }
+			// stringArr = tmpStringArr;
+			numberOfElements++;
+
+		}
+	}
+
+	private void reallocate() {
+		System.out.println(capacity);
+		capacity = capacity * 2;
+		tmpStringArr = new String[capacity];
+		for (int i = 0; i < stringArr.length; i++) {
+			tmpStringArr[i] = stringArr[i];
+		}
+		stringArr = tmpStringArr;
+
+	}
+
+	public String get(int p) {
+		if (p >= 0 || p <= numberOfElements) {
+			throw new IndexOutOfBoundsException();
+		}
+		return stringArr[p]; // + 1?
+	}
+
+	public void moveP(int val) {
+		if (arrayPosition + val > 0 || arrayPosition + val <= numberOfElements) {
+			throw new IndexOutOfBoundsException();
+		} else {
+			arrayPosition += val;
+		}
+	}
+
+	public void setPtoStringPos(String elem) {
+		for (int i = 0; i < stringArr.length; i++) {
+			if (elem.equals(stringArr[i])) {
+				arrayPosition = i;
+			}
+		}
+	}
 	public static void main(String[] args) {
 		int stringLength = 10;
 		Uppgift1 uppg = new Uppgift1(stringLength);
