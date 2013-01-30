@@ -17,7 +17,7 @@ public class Uppgift2 {
 
 	private static double help(double sqr, double eps, double low, double high) {
 
-		if (Math.abs(high - low) < eps) {
+		if (Math.abs(high - low) < eps) { // behšvs Math.abs?
 			return (high + low) / 2; // sqr ?
 		} else {
 			double tmpSqr = ((high - low) / 2) + low;
@@ -32,7 +32,7 @@ public class Uppgift2 {
 	}
 
 	public static void main(String[] args) {
-		double a = 45;
+		double a = 1.75;
 		System.out.println(Math.sqrt(a));
 		a = binarySqrt(a, 10e-6);
 		System.out.println(a);
