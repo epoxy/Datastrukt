@@ -6,13 +6,14 @@ public class Uppgift2 {
 		if (sqr <= 1) {
 			throw new IllegalArgumentException();// ta bort???
 		}
-		double tmpsqr = ((sqr - 1) / 2) + 1;
-		if (Math.pow(tmpsqr, 2) > sqr) {
-			return help(sqr, eps, 1, tmpsqr);
-		} else {
-			return help(sqr, eps, tmpsqr, sqr);
-		}
-
+		return help(sqr, eps, 1, sqr);
+//		double tmpsqr = ((sqr - 1) / 2) + 1;
+//		if (Math.pow(tmpsqr, 2) > sqr) {
+//			return help(sqr, eps, 1, tmpsqr);
+//		} else {
+//			return help(sqr, eps, tmpsqr, sqr);
+//		}
+		
 	}
 
 	private static double help(double sqr, double eps, double low, double high) {
