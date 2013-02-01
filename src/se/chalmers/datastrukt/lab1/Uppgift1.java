@@ -1,8 +1,9 @@
 package se.chalmers.datastrukt.lab1;
+
 /**
  * 
  * @author tomassellden and Anton Palmqvist group 36
- *
+ * 
  */
 public class Uppgift1 {
 
@@ -12,13 +13,15 @@ public class Uppgift1 {
 	private int pointer;
 	private int capacity;
 
-	/**Default-constructor
+	/**
+	 * Default-constructor
 	 */
 	public Uppgift1() {
 		this(10);
 	}
 
-	/**Constructor taking in an argument of the wanted length of the array
+	/**
+	 * Constructor taking in an argument of the wanted length of the array
 	 */
 	public Uppgift1(int length) {
 		this.stringArr = new String[length];
@@ -26,8 +29,9 @@ public class Uppgift1 {
 
 	}
 
-	/**Adding an element at the position in the beginning of the array. 
-	 *All other elements are moved one step to the right
+	/**
+	 * Adding an element at the position in the beginning of the array. All
+	 * other elements are moved one step to the right
 	 */
 	public void addFirst(String element) {
 		int tmpCount = 1;
@@ -38,13 +42,15 @@ public class Uppgift1 {
 		tmpStringArr[0] = element;
 		for (int i = 0; i < numberOfElements; i++) {
 			tmpStringArr[tmpCount] = stringArr[i];
-			tmpCount++; //incrementing to adjust the elements movement to the right
+			tmpCount++; // incrementing to adjust the elements movement to the
+						// right
 		}
 		stringArr = tmpStringArr;
 		numberOfElements++;
 	}
 
-	/**Checking if the array is empty, that is, has no elements.
+	/**
+	 * Checking if the array is empty, that is, has no elements.
 	 */
 	public boolean empty() {
 		for (int i = 0; i < stringArr.length; i++) {
@@ -55,20 +61,24 @@ public class Uppgift1 {
 		return true;
 	}
 
-	/**Returning the first string of the array
+	/**
+	 * Returning the first string of the array
 	 */
 	public String getFirst() {
-		if(empty()){
+		if (empty()) {
 			throw new ArrayIndexOutOfBoundsException("Array is empty");
 		}
 		return stringArr[0];
 	}
 
-	/**Removing the first element of the array, adjusting all other elements one step to the left
+	/**
+	 * Removing the first element of the array, adjusting all other elements one
+	 * step to the left
 	 */
 	public void removeFirst() {
-		if(empty()){
-			throw new ArrayIndexOutOfBoundsException("Remove failed, array already empty");
+		if (empty()) {
+			throw new ArrayIndexOutOfBoundsException(
+					"Remove failed, array already empty");
 		}
 		int nbrOfElem = numberOfElements - 1;
 		tmpStringArr = new String[nbrOfElem];
@@ -79,7 +89,8 @@ public class Uppgift1 {
 		}
 	}
 
-	/**Checking if a String exists in the array
+	/**
+	 * Checking if a String exists in the array
 	 * 
 	 * @param elem
 	 * @return true if the String exists in the array
@@ -93,7 +104,9 @@ public class Uppgift1 {
 		return false;
 	}
 
-	/**Classic toString-method. Appending all array elements into one big String.
+	/**
+	 * Classic toString-method. Appending all array elements into one big
+	 * String.
 	 * 
 	 */
 	public String toString() {
@@ -109,9 +122,11 @@ public class Uppgift1 {
 		return str;
 	}
 
-	/**Setting the pointer to a chosen position
+	/**
+	 * Setting the pointer to a chosen position
 	 * 
-	 * @param p the pointer position
+	 * @param p
+	 *            the pointer position
 	 */
 	public void setP(int p) {
 		if (p < 0 || p > numberOfElements) {
@@ -120,7 +135,8 @@ public class Uppgift1 {
 		pointer = p;
 	}
 
-	/**Checking if the array has an element to the right of the pointer
+	/**
+	 * Checking if the array has an element to the right of the pointer
 	 * 
 	 * @return true if an element exists to the right of the pointer
 	 */
@@ -128,8 +144,9 @@ public class Uppgift1 {
 		return (pointer >= 0 && pointer < numberOfElements);
 	}
 
-	/**Adding a String at the chosen indexposition, moving all elements to the right one 
-	 * step to the right.
+	/**
+	 * Adding a String at the chosen indexposition, moving all elements to the
+	 * right one step to the right.
 	 * 
 	 * @param index
 	 * @param element
@@ -138,13 +155,16 @@ public class Uppgift1 {
 		if (index < 0 || index > numberOfElements) {
 			throw new IndexOutOfBoundsException();
 		}
-		if (numberOfElements == capacity) {//If the capacity is filled with 
-			//elements the capacity should be reallocated
+		if (numberOfElements == capacity) {// If the capacity is filled with
+			// elements the capacity should be reallocated
 			reallocate();
 		}
-		/*Running the array backwards, shifting the elements one step to the right.
-		When the position of the pointerindex is reached the new String-element is added there,
-		which is the same as adding it to the right of the thought pointer*/
+		/*
+		 * Running the array backwards, shifting the elements one step to the
+		 * right. When the position of the pointerindex is reached the new
+		 * String-element is added there, which is the same as adding it to the
+		 * right of the thought pointer
+		 */
 		for (int i = numberOfElements; i > index; i--) {
 			stringArr[i] = stringArr[i - 1];
 		}
@@ -152,7 +172,9 @@ public class Uppgift1 {
 		numberOfElements++;
 	}
 
-	/**Reallocating the capacity of the array by increasing its length to twice its length
+	/**
+	 * Reallocating the capacity of the array by increasing its length to twice
+	 * its length
 	 */
 	private void reallocate() {
 		capacity = capacity * 2;
@@ -163,23 +185,26 @@ public class Uppgift1 {
 		stringArr = tmpStringArr;
 	}
 
-	/**Returning the string to the right of a chosen pointerposition
+	/**
+	 * Returning the string to the right of a chosen pointerposition
 	 * 
 	 * @param p
 	 * @return
 	 */
 	public String get(int p) {
-		if (!hasNext()) {
+		if (p < 0 || p > numberOfElements) {
 			throw new IndexOutOfBoundsException();
 		}
 		return stringArr[p];
 	}
 
-	/**Moving the pointer a desired amount of steps to the left or right.
-	 * A negative number moves it to the left and a positive number moves 
-	 * it to the right.
+	/**
+	 * Moving the pointer a desired amount of steps to the left or right. A
+	 * negative number moves it to the left and a positive number moves it to
+	 * the right.
 	 * 
-	 * @param val the chosen steps to move the pointer
+	 * @param val
+	 *            the chosen steps to move the pointer
 	 */
 	public void moveP(int val) {
 		if (pointer + val < 0 || pointer + val > numberOfElements) {
@@ -188,13 +213,17 @@ public class Uppgift1 {
 		pointer += val;
 	}
 
-	/**Setting the pointer to the left of a chosen string, if it exists in the array.
+	/**
+	 * Setting the pointer to the left of a chosen string, if it exists in the
+	 * array.
 	 * 
-	 * @param elem the string element we want to determine the position of, to set the 
-	 * pointer to the left of it
+	 * @param elem
+	 *            the string element we want to determine the position of, to
+	 *            set the pointer to the left of it
 	 */
-	//Remark: The method existP is not used here since it would lead to running through the array 
-	//twice, which would be redundant.
+	// Remark: The method existP is not used here since it would lead to running
+	// through the array
+	// twice, which would be redundant.
 	public void setPtoStringPos(String elem) {
 		boolean isChanged = false;
 		for (int i = 0; i < stringArr.length; i++) {
@@ -203,17 +232,18 @@ public class Uppgift1 {
 				isChanged = true;
 			}
 		}
-		if(!isChanged){
-			throw new IllegalArgumentException("No such String, unable to set pointer");
+		if (!isChanged) {
+			throw new IllegalArgumentException(
+					"No such String, unable to set pointer");
 		}
 	}
 
 	public static void main(String[] args) {
-		//Testcases
+		// Testcases
 		int stringLength = 10;
 		Uppgift1 uppgA = new Uppgift1(stringLength);
 
-		//a)
+		// a)
 		// First test for method empty
 		System.out.println("*" + uppgA.empty() + " # bör vara true");
 
@@ -240,15 +270,15 @@ public class Uppgift1 {
 		System.out.println("*" + uppgA.existP("Adam") + " # bör vara false");
 
 		// Test for toString
-		System.out.println("*" + uppgA + " # bör vara [ Anton, Tomas, Erland ]");
+		System.out
+				.println("*" + uppgA + " # bör vara [ Anton, Tomas, Erland ]");
 
 		// Test for reallocate
 		System.out.println("*" + uppgA.capacity + " # bör vara 10");
 		uppgA.reallocate();
 		System.out.println("*" + uppgA.capacity + " # bör vara 20");
 
-
-		//b)
+		// b)
 		Uppgift1 uppgB = new Uppgift1();
 		uppgB.addFirst("Julius");
 		uppgB.addFirst("Ingvar");
@@ -260,7 +290,8 @@ public class Uppgift1 {
 		uppgB.addFirst("Cecilia");
 		uppgB.addFirst("Bertil");
 		uppgB.addFirst("Anton");
-		System.out.println("*" + uppgB + " # bör skriva ut 10 namn i alfabetisk ordning");
+		System.out.println("*" + uppgB
+				+ " # bör skriva ut 10 namn i alfabetisk ordning");
 
 		// Test for setP
 		uppgB.setP(4);
@@ -273,27 +304,36 @@ public class Uppgift1 {
 
 		// Test for addAfterP
 		uppgB.addAfterP(5, "Sven");
-		System.out.println("*" + uppgB + " # bör skriva ut Sven på pekarposition 5, alltså efter Felix");
+		System.out
+				.println("*"
+						+ uppgB
+						+ " # bör skriva ut Sven på pekarposition 5, alltså efter Felix");
 
 		// Test for get
-		System.out.println("*" + uppgB.get(2) + " # bör returnera Cecilia, som ju ligger till höger om pekaren");
-		//Testar att IndexOutOfBoundsException kastas(bortkommenterad för att körning ska gå igenom för andra test)
-		//System.out.println("*" + uppgB.get(13) + " # bör returnera Cecilia, som ju ligger till höger om pekaren");
+		System.out
+				.println("*"
+						+ uppgB.get(2)
+						+ " # bör returnera Cecilia, som ju ligger till höger om pekaren");
+		// Testar att IndexOutOfBoundsException kastas(bortkommenterad för att
+		// körning ska gå igenom för andra test)
+		// System.out.println("*" + uppgB.get(13) +
+		// " # bör returnera Cecilia, som ju ligger till höger om pekaren");
 
 		// Test for moveP
 		uppgB.setP(0);
-		uppgB.moveP(5); //Flyttar pekaren 5 steg åt höger
+		uppgB.moveP(5); // Flyttar pekaren 5 steg åt höger
 		System.out.println("*" + uppgB.pointer + " # bör vara 5");
-		uppgB.moveP(-2); //Flyttar pekaren två steg åt vänster
+		uppgB.moveP(-2); // Flyttar pekaren två steg åt vänster
 		System.out.println("*" + uppgB.pointer + " # bör vara 3");
-		
+
 		// Test for setPtoStringPos
-		uppgB.setPtoStringPos("David"); //Setting the pointer to the left of the String "David" if it exists in the array
+		uppgB.setPtoStringPos("David"); // Setting the pointer to the left of
+										// the String "David" if it exists in
+										// the array
 		System.out.println("*" + uppgB.pointer + " # bör vara 3");
 		uppgB.setPtoStringPos("Julius");
 		System.out.println("*" + uppgB.pointer + " # bör vara 10");
-		//Kollar att exception kastas(bortkommenterad för att övrig kod ska köras
-		//uppgB.setPtoStringPos("Nisse");
-		//System.out.println("*" + uppgB.pointer + " # bör vara 3");
+		// Kollar att exception kastas(bortkommenterad för att övrig kod ska
+		// köras
 	}
 }
