@@ -39,6 +39,7 @@ public class Uppgift2 {
 	 *            the highest value the square root can be
 	 * @return double the square root of sqr with the margin of error eps
 	 */
+	//Remark: declared private since it is only called within the class
 	private static double help(double sqr, double eps, double low, double high) {
 
 		if (Math.abs(high - low) < eps) {
@@ -71,5 +72,10 @@ public class Uppgift2 {
 		double cRot = binarySqrt(c, eps);
 		System.out.println("* Beräknat rotvärdevärde gånger sig självt=" + cRot*cRot + " # " +
 				"bör vara nära ursprungsvärdet=" + c + "\nmed en felmarginal på " + eps + "\n");
+		
+		//Test of exception
+		//binarySqrt(-2, 1000);
+		/*Exception "IllegalArgumentException: The number you want to square must be over =>1"
+			kastas på rätt sätt. (Bortkommenterad för att koden skall köras)*/
 	}
 }
