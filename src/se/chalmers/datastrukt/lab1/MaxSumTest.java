@@ -130,7 +130,7 @@ public class MaxSumTest {
 			System.out.print("algo  #" + alg +"        ");
 			for( int arraySize = 50; arraySize <= 500000; arraySize *= 2 ) { // double the size every time
 				// eventually skip this array size, too slow
-				if( (alg == 1 && arraySize > 200) ||  (alg == 2 && arraySize > 12800)) {
+				if( (alg == 1 && arraySize > 200) ||  (alg == 2 && arraySize > 800)) {
 					System.out.printf("%11s" , "-");
 					continue;
 				}
