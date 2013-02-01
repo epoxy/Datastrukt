@@ -40,7 +40,8 @@ public class Uppgift2 {
 	 * @return double the square root of sqr with the margin of error eps
 	 */
 	//Remark: declared private since it is only called within the class
-	private static double help(double sqr, double eps, double low, double high) {
+	private static double help(double sqr, double eps, double low, 
+			double high){
 
 		if (Math.abs(high - low) < eps) {
 			return (high + low) / 2;
@@ -59,23 +60,27 @@ public class Uppgift2 {
 		double a = 12354;
 		double eps = 10e-6;
 		// Test with Math.sqrt
-		System.out.println("* Beräknat värde=" + binarySqrt(a, eps) + " # bör vara nära " +
-				"Math.sqrt-värde=" + Math.sqrt(a)+ "\nmed en felmarginal på " + eps + "\n");
+		System.out.println("* Beräknat värde=" + binarySqrt(a, eps) + " # " +
+				"bör " + "vara nära " + "Math.sqrt-värde=" + Math.sqrt(a)+ 
+				"\nmed en " + "felmarginal på " + eps + "\n");
 		
 		//Test without Math.sqrt
 		double b = 100;
 		double bRot = binarySqrt(b, eps);
-		System.out.println("* Beräknat rotvärdevärde gånger sig självt=" + bRot*bRot + " # " +
-				"bör vara nära ursprungsvärdet=" + b + "\nmed en felmarginal på " + eps + "\n");
+		System.out.println("* Beräknat rotvärdevärde gånger sig självt=" + 
+				bRot*bRot + " # " + "bör vara nära ursprungsvärdet=" + b + 
+				"\nmed en felmarginal på " + eps + "\n");
 
 		double c = 37;
 		double cRot = binarySqrt(c, eps);
-		System.out.println("* Beräknat rotvärdevärde gånger sig självt=" + cRot*cRot + " # " +
-				"bör vara nära ursprungsvärdet=" + c + "\nmed en felmarginal på " + eps + "\n");
+		System.out.println("* Beräknat rotvärdevärde gånger sig självt=" + 
+		cRot*cRot + " # " + "bör vara nära ursprungsvärdet=" + c + 
+		"\nmed en felmarginal på " + eps + "\n");
 		
 		//Test of exception
 		//binarySqrt(-2, 1000);
-		/*Exception "IllegalArgumentException: The number you want to square must be over =>1"
+		/*Exception "IllegalArgumentException: The number you want to 
+		 * square must be over =>1"
 			kastas på rätt sätt. (Bortkommenterad för att koden skall köras)*/
 	}
 }
