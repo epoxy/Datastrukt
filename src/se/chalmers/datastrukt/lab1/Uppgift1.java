@@ -1,5 +1,9 @@
 package se.chalmers.datastrukt.lab1;
-
+/**
+ * 
+ * @author tomassellden and Anton Palmqvist group 36
+ *
+ */
 public class Uppgift1 {
 
 	private String[] stringArr;
