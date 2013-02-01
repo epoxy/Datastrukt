@@ -29,13 +29,24 @@ public class Uppgift2 {
 			}
 			return help(sqr, eps, low, high);
 		}
-
 	}
 
 	public static void main(String[] args) {
 		double a = 12354;
-		System.out.println(Math.sqrt(a));
-		a = binarySqrt(a, 10e-6);
-		System.out.println(a);
+		double eps = 10e-6;
+		// Test with Math.sqrt
+		System.out.println("* Beräknat värde=" + binarySqrt(a, eps) + " # bör vara nära " +
+				"Math.sqrt-värde=" + Math.sqrt(a)+ "\nmed en felmarginal på " + eps + "\n");
+		
+		//Test without Math.sqrt
+		double b = 100;
+		double bRot = binarySqrt(b, eps);
+		System.out.println("* Beräknat rotvärdevärde gånger sig självt=" + bRot*bRot + " # " +
+				"bör vara nära ursprungsvärdet=" + b + "\nmed en felmarginal på " + eps + "\n");
+
+		double c = 37;
+		double cRot = binarySqrt(c, eps);
+		System.out.println("* Beräknat rotvärdevärde gånger sig självt=" + cRot*cRot + " # " +
+				"bör vara nära ursprungsvärdet=" + c + "\nmed en felmarginal på " + eps + "\n");
 	}
 }
