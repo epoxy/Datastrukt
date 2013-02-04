@@ -72,7 +72,8 @@ public class Uppgift1 {
 	}
 
 	/**
-	 * Removing the first element of the array, adjusting all other elements one
+	 * Removing the first element of the array, 
+	 * adjusting all other elements one
 	 * step to the left
 	 */
 	public void removeFirst() {
@@ -221,7 +222,8 @@ public class Uppgift1 {
 	 *            the string element we want to determine the position of, to
 	 *            set the pointer to the left of it
 	 */
-	// Remark: The method existP is not used here since it would lead to running
+	// Remark: The method existP is not used here since 
+	// it would lead to running
 	// through the array
 	// twice, which would be redundant.
 	public void setPtoStringPos(String elem) {
@@ -307,13 +309,15 @@ public class Uppgift1 {
 		System.out
 				.println("*"
 						+ uppgB
-						+ " # bör skriva ut Sven på pekarposition 5, alltså efter Felix");
+						+ " # bör skriva ut Sven på pekarposition 5," +
+						" alltså efter Felix");
 
 		// Test for get
 		System.out
 				.println("*"
 						+ uppgB.get(2)
-						+ " # bör returnera Cecilia, som ju ligger till höger om pekaren");
+						+ " # bör returnera Cecilia, som ju ligger till " +
+						"höger om pekaren");
 		// Testar att IndexOutOfBoundsException kastas(bortkommenterad för att
 		// körning ska gå igenom för andra test)
 		// System.out.println("*" + uppgB.get(13) +
