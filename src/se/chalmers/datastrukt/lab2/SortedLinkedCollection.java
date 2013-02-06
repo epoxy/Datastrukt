@@ -60,10 +60,11 @@ public class SortedLinkedCollection<E extends Comparable<E>> extends
 		Iterator<E> it = this.iterator();
 		while (it.hasNext()) {
 			element = it.next();
-			if (e.compareTo(element) < 0) {
+			int tmpCompare = (e.compareTo(element));
+			if (tmpCompare < 0) {
 				return null;
 			}
-			if (e.compareTo(element) == 0) {
+			if (tmpCompare == 0) {
 				return element;
 			}
 		}
@@ -84,7 +85,7 @@ public class SortedLinkedCollection<E extends Comparable<E>> extends
 		System.out.println(sortedLink.get(0));
 		System.out.println(sortedLink.get(4));
 		System.out.println(sortedLink.get(17));
-		System.out.println(sortedLink.get(182));
+		System.out.println(sortedLink.get(183));
 		System.out.println(sortedLink.get(53));
 		System.out.println(sortedLink.toString());
 	}
