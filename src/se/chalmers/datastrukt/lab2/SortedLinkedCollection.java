@@ -6,6 +6,13 @@ import testSortCol.CollectionWithGet;
 
 import datastructures.LinkedCollection;
 
+/**
+ * A sorted linked collection of elements with the smallest element 
+ * first and the biggest last.
+ * @author Tomas, Anton
+ *
+ * @param <E> an element put in the collection.
+ */
 public class SortedLinkedCollection<E extends Comparable<E>> extends
 		LinkedCollection<E> implements CollectionWithGet<E> {
 
@@ -26,6 +33,7 @@ public class SortedLinkedCollection<E extends Comparable<E>> extends
 			tail = head;
 			return true;
 		}
+		//TODO nestlad ifsats efter kontroll om elementscapacity=1
 		if (head.element.compareTo(element) > 0) {
 			head = new Entry(element, head);
 			return true;
