@@ -5,6 +5,9 @@ package se.chalmers.datastrukt.lab1;
  * @author tomassellden and Anton Palmqvist group 36
  * 
  */
+
+//TODO (=) Ingen readme
+//TODO (=) Ni svarar inget på diskussionsfrågan i b-uppgiten om huruvida
 public class Uppgift1 {
 
 	private String[] stringArr;
@@ -34,16 +37,13 @@ public class Uppgift1 {
 	 * other elements are moved one step to the right
 	 */
 	public void addFirst(String element) {
-		int tmpCount = 1;
 		if (numberOfElements >= capacity) {
 			reallocate();
 		}
 		tmpStringArr = new String[capacity];
 		tmpStringArr[0] = element;
 		for (int i = 0; i < numberOfElements; i++) {
-			tmpStringArr[tmpCount] = stringArr[i];
-			tmpCount++; // incrementing to adjust the elements movement to the
-						// right
+			tmpStringArr[i+1] = stringArr[i];
 		}
 		stringArr = tmpStringArr;
 		numberOfElements++;
@@ -130,7 +130,11 @@ public class Uppgift1 {
 	 *            the pointer position
 	 */
 	public void setP(int p) {
-		if (p < 0 || p > numberOfElements) {
+		/*Allowed to be set to the last place(numberOfElements). 
+		 * This pointer-position will not have a next value (hasNext will 
+		 * return false) however the possibility to put the pointer 
+		 * here should be allowed anyway.*/
+		if (p < 0 || p > numberOfElements) { 
 			throw new IndexOutOfBoundsException();
 		}
 		pointer = p;
@@ -193,8 +197,8 @@ public class Uppgift1 {
 	 * @return
 	 */
 	public String get(int p) {
-		if (p < 0 || p > numberOfElements) {
-			throw new IndexOutOfBoundsException();
+		if (p < 0 || p >= numberOfElements) {
+			throw new IndexOutOfBoundsException("No value exists at this position.");
 		}
 		return stringArr[p];
 	}
@@ -310,7 +314,7 @@ public class Uppgift1 {
 				.println("*"
 						+ uppgB
 						+ " # bör skriva ut Sven på pekarposition 5," +
-						" alltså efter Felix");
+						" alltså efter Erik");
 
 		// Test for get
 		System.out
@@ -322,6 +326,13 @@ public class Uppgift1 {
 		// körning ska gå igenom för andra test)
 		// System.out.println("*" + uppgB.get(13) +
 		// " # bör returnera Cecilia, som ju ligger till höger om pekaren");
+		System.out.println("*" + uppgB.get(10)
+				+ " # bör returnera Julius, som ju ligger sist");
+		/*Bör ge IndexOutOfBoundsException eftersom det bara finns 11 element. 
+		På pekarplats 11 finns alltså ingenting till höger eftersom man 
+		börjar räkna från pekarplats 0.
+		Bortkommenterad för att koden ska kompilera*/
+		//System.out.println("*" + uppgB.get(11));
 
 		// Test for moveP
 		uppgB.setP(0);
@@ -329,6 +340,14 @@ public class Uppgift1 {
 		System.out.println("*" + uppgB.pointer + " # bör vara 5");
 		uppgB.moveP(-2); // Flyttar pekaren två steg åt vänster
 		System.out.println("*" + uppgB.pointer + " # bör vara 3");
+		uppgB.moveP(8); // Flyttar pekaren två steg åt vänster
+		System.out.println("*" + uppgB.pointer + " # bör vara 11");
+		/*Bör ge IndexOutOfBoundsException eftersom det bara finns 11 element.
+		Det går inte att ställa pekaren till höger om ett element som inte 
+		finns.
+		Bortkommenterad för att koden ska kompilera*/
+		//uppgB.moveP(1);
+		
 
 		// Test for setPtoStringPos
 		uppgB.setPtoStringPos("David"); // Setting the pointer to the left of
