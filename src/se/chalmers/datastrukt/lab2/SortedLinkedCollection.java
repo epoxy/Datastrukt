@@ -9,7 +9,7 @@ import datastructures.LinkedCollection;
 /**
  * An implementation of sorted singly linked collection of elements with the smallest element 
  * first and the biggest last.
- * @author Tomas, Anton
+ * @author Tomas Selldén, Anton Palmqvist; Group 36
  *
  * @param <E> an element put in the collection.
  */
