@@ -358,5 +358,17 @@ public class Uppgift1 {
 		System.out.println("*" + uppgB.pointer + " # bör vara 10");
 		// Kollar att exception kastas(bortkommenterad för att övrig kod ska
 		// köras
+		
+		// Test to fill the array to test reallocate-method
+		Uppgift1 reallocateTest = new Uppgift1(2);
+		System.out.println("*" + reallocateTest.capacity + " # capacity bör " +
+				"vara 2");
+		reallocateTest.addFirst("c");
+		reallocateTest.addFirst("b");
+		reallocateTest.addFirst("a");
+		System.out.println("*" + reallocateTest.capacity + " # capacity bör " +
+				"vara 4, dvs dubblad efter att blivit reallocatead efter att " +
+				"arrayen fyllts");
+		
 	}
 }
