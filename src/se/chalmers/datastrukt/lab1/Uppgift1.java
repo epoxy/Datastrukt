@@ -6,8 +6,6 @@ package se.chalmers.datastrukt.lab1;
  * 
  */
 
-//TODO (=) Ingen readme
-//TODO (=) Ni svarar inget på diskussionsfrågan i b-uppgiten om huruvida
 public class Uppgift1 {
 
 	private String[] stringArr;
@@ -131,7 +129,7 @@ public class Uppgift1 {
 	 */
 	public void setP(int p) {
 		/*Allowed to be set to the last place(numberOfElements). 
-		 * This pointer-position will not have a next value (hasNext will 
+		 * This pointer-position will not have a next value (hasNext will
 		 * return false) however the possibility to put the pointer 
 		 * here should be allowed anyway.*/
 		if (p < 0 || p > numberOfElements) { 
@@ -198,7 +196,8 @@ public class Uppgift1 {
 	 */
 	public String get(int p) {
 		if (p < 0 || p >= numberOfElements) {
-			throw new IndexOutOfBoundsException("No value exists at this position.");
+			throw new IndexOutOfBoundsException("No value exists at " +
+					"this position.");
 		}
 		return stringArr[p];
 	}
@@ -328,7 +327,7 @@ public class Uppgift1 {
 		// " # bör returnera Cecilia, som ju ligger till höger om pekaren");
 		System.out.println("*" + uppgB.get(10)
 				+ " # bör returnera Julius, som ju ligger sist");
-		/*Bör ge IndexOutOfBoundsException eftersom det bara finns 11 element. 
+		/*Bör ge IndexOutOfBoundsException eftersom det bara finns 11 element.
 		På pekarplats 11 finns alltså ingenting till höger eftersom man 
 		börjar räkna från pekarplats 0.
 		Bortkommenterad för att koden ska kompilera*/
@@ -361,14 +360,14 @@ public class Uppgift1 {
 		
 		// Test to fill the array to test reallocate-method
 		Uppgift1 reallocateTest = new Uppgift1(2);
-		System.out.println("*" + reallocateTest.capacity + " # capacity bör " +
-				"vara 2");
+		System.out.println("*" + reallocateTest.capacity + " # capacity " +
+				"bör vara 2");
 		reallocateTest.addFirst("c");
 		reallocateTest.addFirst("b");
 		reallocateTest.addFirst("a");
-		System.out.println("*" + reallocateTest.capacity + " # capacity bör " +
-				"vara 4, dvs dubblad efter att blivit reallocatead efter att " +
-				"arrayen fyllts");
+		System.out.println("*" + reallocateTest.capacity + " # capacity " +
+				"bör vara 4, dvs dubblad efter att blivit reallocatead " +
+				"efter att arrayen fyllts");
 		
 	}
 }
