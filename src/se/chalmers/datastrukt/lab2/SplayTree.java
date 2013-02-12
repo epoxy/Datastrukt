@@ -130,7 +130,7 @@ A   z'             A   B C   D
 		y.left = z;
 		x.left = y;
 	}
-	private void ZagZag( Entry x) {
+	private void zagZag( Entry x) {
 		Entry y = x.left, z = x.left.left;
 		E tmp = x.element;
 		x.element = z.element;
@@ -159,8 +159,26 @@ A   z'             A   B C   D
 
 	@Override
 	public E get(E e) {
-		// TODO Auto-generated method stub
-		return null;
+		Entry entry = find(e, root);
+		if (entry == null){
+			return null;
+		}
+		if (entry.parent == null) {
+			return e;
+		}
+		while (entry.parent != null) {
+		Entry parent = entry.parent;
+		Entry grandParent = parent.parent;
+//		if(grandParent == null) {
+//			if (parent.left == entry) {
+//				zag(entry);
+//			} else {
+//				zig(entry);
+//			}
+//		}
+//		if (parent.left)
+		
 	}
-
-}
+	
+	return null;
+}}
