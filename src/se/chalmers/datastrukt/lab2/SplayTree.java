@@ -106,6 +106,16 @@ A   z'             A   B C   D
 
 	} // doubleRotateLeft
 
+	
+	/* Rotera ? steg i ?varv, dvs 
+        x' 								z'
+       / \							   / \
+      a	  y'						  y'  d
+         / \         --->			 / \ 
+        b   z'						x'  c
+           / \					   / \
+          c   d					  a   b
+*/
 	private void zigZig( Entry x) {
 		Entry y = x.right, z = x.right.right;
 		E tmp = x.element;
@@ -130,7 +140,20 @@ A   z'             A   B C   D
 		y.left = z;
 		x.left = y;
 	}
-	private void zagZag( Entry x) {
+
+
+	
+	/* Rotera ? steg i ?varv, dvs 
+        	x'				z'
+           / \			   / \
+          y'  d			  a   y'
+         / \			     / \
+        z'  c				b   x'
+       / \					   / \
+      a   b					  c   d
+
+	 */
+	private void ZagZag( Entry x) {
 		Entry y = x.left, z = x.left.left;
 		E tmp = x.element;
 		x.element = z.element;
@@ -169,14 +192,14 @@ A   z'             A   B C   D
 		while (entry.parent != null) {
 		Entry parent = entry.parent;
 		Entry grandParent = parent.parent;
-//		if(grandParent == null) {
-//			if (parent.left == entry) {
-//				zag(entry);
-//			} else {
-//				zig(entry);
-//			}
-//		}
-//		if (parent.left)
+		if(grandParent == null) {
+			if (parent.left == entry) {
+				zag(entry);
+			} else {
+				zig(entry);
+			}
+		}
+		
 		
 	}
 	
