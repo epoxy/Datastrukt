@@ -106,6 +106,16 @@ A   z'             A   B C   D
 
 	} // doubleRotateLeft
 
+	
+	/* Rotera ? steg i ?varv, dvs 
+        x' 								z'
+       / \							   / \
+      a	  y'						  y'  d
+         / \         --->			 / \ 
+        b   z'						x'  c
+           / \					   / \
+          c   d					  a   b
+*/
 	private void zigZig( Entry x) {
 		Entry y = x.right, z = x.right.right;
 		E tmp = x.element;
