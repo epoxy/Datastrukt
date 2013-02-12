@@ -140,6 +140,17 @@ A   z'             A   B C   D
 		y.left = z;
 		x.left = y;
 	}
+	
+	/* Rotera ? steg i ?varv, dvs 
+        	x'				z'
+           / \			   / \
+          y'  d			  a   y'
+         / \			     / \
+        z'  c				b   x'
+       / \					   / \
+      a   b					  c   d
+
+	 */
 	private void ZagZag( Entry x) {
 		Entry y = x.left, z = x.left.left;
 		E tmp = x.element;
