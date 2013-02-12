@@ -130,7 +130,29 @@ A   z'             A   B C   D
 		y.left = z;
 		x.left = y;
 	}
-	private void ZagZag( Entry e) {
+	private void ZagZag( Entry x) {
+		Entry y = x.left, z = x.left.left;
+		E tmp = x.element;
+		x.element = z.element;
+		z.element = tmp;
+		x.left = z.left;
+		if (x.left != null) {
+			x.left.parent = x;
+		}
+		y.left = z.right;
+		if (y.left != null) {
+			y.left.parent = y;
+		}
+		z.left = y.right;
+		if (z.left != null) {
+			z.left.parent = z;
+		}
+		z.right = x.right;
+		if (z.right != null) {
+			z.right.parent = z;
+		}
+		y.right = z;
+		x.right = y;
 		
 	}
 
