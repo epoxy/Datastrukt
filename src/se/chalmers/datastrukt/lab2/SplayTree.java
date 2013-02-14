@@ -20,12 +20,14 @@ A   B                  B   C
 		x.element = y.element;
 		y.element = temp;
 		x.left = y.left;
-		if (x.left != null)
+		if (x.left != null) {
 			x.left.parent = x;
+		}
 		y.left = y.right;
 		y.right = x.right;
-		if (y.right != null)
+		if (y.right != null) {
 			y.right.parent = y;
+		}
 		x.right = y;
 
 	} // rotateRight
@@ -37,18 +39,21 @@ A   B                  B   C
      / \            / \  
     B   C          A   B   
 */
-	private void zig( Entry x ) {
+	
+	private void zig(Entry x) {
 		Entry y = x.right;
 		E temp = x.element;
 		x.element = y.element;
 		y.element = temp;
 		x.right = y.right;
-		if (x.right != null)
+		if (x.right != null) {
 			x.right.parent = x;
+		}
 		y.right = y.left;
 		y.left = x.left;
-		if (y.left != null)
+		if (y.left != null) {
 			y.left.parent = y;
+		}
 		x.left = y;
 
 	} // rotateLeft
@@ -68,12 +73,14 @@ A   z'             A   B C   D
 		x.element = z.element;
 		z.element = e;
 		y.right = z.left;
-		if (y.right != null)
+		if (y.right != null) {
 			y.right.parent = y;
+		}
 		z.left = z.right;
 		z.right = x.right;
-		if (z.right != null)
+		if (z.right != null) {
 			z.right.parent = z;
+		}
 		x.right = z;
 		z.parent = x;
 
@@ -94,13 +101,15 @@ A   z'             A   B C   D
 		x.element = z.element;
 		z.element = e;
 		y.left = z.right;
-		if (y.left != null) 
+		if (y.left != null) {
 			y.left.parent = y;
+		}
 		z.right = z.left;
 		z.left = x.left;
-		
-		if (z.left != null) 
+
+		if (z.left != null) {
 			z.left.parent = z;
+		}
 		x.left = z;
 		z.parent = x;
 
@@ -129,16 +138,17 @@ A   z'             A   B C   D
 		if (y.right != null) {
 			y.right.parent = y;
 		}
-		z.left = x.left;
-		if (z.right != null) {
-			z.right.parent = z;
-		}
 		z.right = y.left;
 		if (z.right != null) {
 			z.right.parent = z;
 		}
-		y.left = z;
+		z.left = x.left;
+		if (z.right != null) {
+			z.right.parent = z;
+		}
 		x.left = y;
+		y.left = z;
+		
 	}
 
 
@@ -178,30 +188,94 @@ A   z'             A   B C   D
 		x.right = y;
 		
 	}
+	//int searchMetodh = 0;
+	public Entry search(E e, Entry entry) {
+		//searchMetodh++;
+		//System.out.println("search " + searchMetodh);
+		Entry previous = null;
+		Entry current = entry;
+		int jfr = e.compareTo(current.element);
+		while (jfr != 0) {
+			if (jfr > 0) {
+				previous = current;
+				current = current.right;
+			} else {
+				previous = current;
+				current = current.left;
+			}
 
-
-	@Override
-	public E get(E e) {
-		Entry entry = find(e, root);
-		if (entry == null){
+			if (current == null ) {
+				splay(previous);
+				return null;
+			}
+			jfr = e.compareTo(current.element);
+		}
+		return current;
+	}
+	//private int splayMethod = 0;
+	public Entry splay(Entry entry) {
+		//splayMethod++;
+		//System.out.println("splayMetoden kšrs antal ggr " + splayMethod);
+		if(entry == null || entry.parent == null) {
 			return null;
 		}
-		if (entry.parent == null) {
-			return e;
-		}
 		while (entry.parent != null) {
-		Entry parent = entry.parent;
-		Entry grandParent = parent.parent;
-		if(grandParent == null) {
-			if (parent.left == entry) {
-				zag(entry);
+			System.out.println("splay");
+			if (entry.parent.parent == null) {
+				if (entry.parent.left != null && entry.parent.left.equals(entry)) {
+					zag(entry.parent);
+				} else {
+					zig(entry.parent);
+				}
+				entry = entry.parent;
+				return entry;
 			} else {
-				zig(entry);
+				Entry grandParent = entry.parent.parent;
+				if (grandParent.left != null && grandParent.left.left != null
+						&& grandParent.left.left.equals(entry)) {
+					ZagZag(grandParent);
+					entry= grandParent;
+				} else if (grandParent.right != null
+						&& grandParent.right.left != null
+						&& grandParent.right.left.equals(entry)) {
+					zigZag(grandParent);
+					 entry = entry.parent;
+				} else if (grandParent.left != null
+						&& grandParent.left.right != null
+						&& grandParent.left.right.equals(entry)) {
+					zagZig(grandParent);
+					 entry = entry.parent;
+				} else if (grandParent.right != null
+						&& grandParent.right.right != null
+						&& grandParent.right.right.equals(entry)) {
+					zigZig(grandParent);
+					 entry = grandParent;
+				}
+				//entry = grandParent;
 			}
 		}
-		
-		
+		return entry;
 	}
 	
-	return null;
-}}
+	//int get = 0;
+	@Override
+	public E get(E e) {
+		//get++;
+		//System.out.println("getmetoden kšrs antal ggr" + get);
+		if (e == null || root == null) {
+			return null;
+		}
+
+		if (e.compareTo(root.element) == 0) {
+			return e;
+		}
+
+		Entry entry = search(e, root);
+		if (entry == null) {
+			return null;
+		}
+		entry = splay(entry);
+		
+		return entry.element;
+	}
+}

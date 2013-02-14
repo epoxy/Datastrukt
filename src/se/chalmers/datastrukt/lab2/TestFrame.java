@@ -33,7 +33,7 @@ public class TestFrame extends JFrame implements ActionListener {
 	containerSLC   =   new SortedLinkedCollection<TestMapWithCounter.TestMapEntry<String,List<Integer>>>(),
 	containerBST   =   null,
         containerAVL   =   null,
-        containerSplay =   null;
+        containerSplay =   new SplayTree<TestMapWithCounter.TestMapEntry<String,List<Integer>>>();
     
     /*    **************************************************  */   
 
