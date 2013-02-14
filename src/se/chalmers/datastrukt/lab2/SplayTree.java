@@ -278,4 +278,15 @@ A   z'             A   B C   D
 
 		return entry.element;
 	}
+	public static void main(String[] args) {
+		SplayTree<String> splay = new SplayTree<String>();
+		splay.add("A");
+		splay.add("B");
+		splay.add("C");
+		splay.add("D");
+		splay.add("E");
+		splay.get("G");
+		splay.add("374jsjh");
+		System.out.println(splay.get("B"));
+	}
 }
