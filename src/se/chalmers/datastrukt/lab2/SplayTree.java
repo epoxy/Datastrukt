@@ -171,6 +171,7 @@ A   z'             A   B C   D
         b   z'						x'  c
            / \					   / \
           c   d					  a   b
+<<<<<<< HEAD
 	 */
 	
 	/**
@@ -183,9 +184,9 @@ A   z'             A   B C   D
 	 */
 	private void zigZig( Entry x) {
 		Entry y = x.right, z = x.right.right;
-		E tmp = x.element;
+		E e = x.element;
 		x.element = z.element;
-		z.element = tmp;
+		z.element = e;
 		x.right = z.right;
 		if (x.right != null) {
 			x.right.parent = x;
@@ -199,16 +200,13 @@ A   z'             A   B C   D
 			z.right.parent = z;
 		}
 		z.left = x.left;
-		if (z.right != null) {
-			z.right.parent = z;
+		if (z.left != null) {
+			z.left.parent = z;
 		}
 		x.left = y;
 		y.left = z;
 
 	}
-
-
-
 	/* Rotera ? steg i ?varv, dvs 
         	x'				z'
            / \			   / \
@@ -219,7 +217,7 @@ A   z'             A   B C   D
       a   b					  c   d
 
 	 */
-	private void ZagZag( Entry x) {
+	private void zagZag( Entry x) {
 		Entry y = x.left, z = x.left.left;
 		E tmp = x.element;
 		x.element = z.element;
@@ -244,10 +242,8 @@ A   z'             A   B C   D
 		x.right = y;
 
 	}
-	//int searchMetodh = 0;
+	
 	public Entry search(E e, Entry entry) {
-		//searchMetodh++;
-		//System.out.println("search " + searchMetodh);
 		Entry previous = null;
 		Entry current = entry;
 		int jfr = e.compareTo(current.element);
@@ -268,20 +264,16 @@ A   z'             A   B C   D
 		}
 		return current;
 	}
-	//private int splayMethod = 0;
 	public Entry splay(Entry entry) {
-		//splayMethod++;
-		//System.out.println("splayMetoden kšrs antal ggr " + splayMethod);
 		if(entry == null || entry.parent == null) {
 			return null;
 		}
 		while (entry.parent != null) {
-			System.out.println("splayTest");
 			if (entry.parent.parent == null) {
 				Entry parent = entry.parent;
 				if (parent.left != null && parent.left.equals(entry)) {
 					zag(entry.parent);
-				} else if(parent.right!=null && parent.right.equals(entry)){
+				} else  {
 					zig(entry.parent);
 				}
 				entry = entry.parent;
@@ -291,7 +283,7 @@ A   z'             A   B C   D
 				Entry grandParent = entry.parent.parent;
 				if (grandParent.left != null && grandParent.left.left != null
 						&& grandParent.left.left.equals(entry)) {
-					ZagZag(grandParent);
+					zagZag(grandParent);
 					entry= grandParent;
 				} else if (grandParent.right != null
 						&& grandParent.right.left != null
@@ -309,17 +301,12 @@ A   z'             A   B C   D
 					zigZig(grandParent);
 					entry = grandParent;
 				}
-				//entry = grandParent;
 			}
 		}
 		return entry;
 	}
-
-	//int get = 0;
 	@Override
 	public E get(E e) {
-		//get++;
-		//System.out.println("getmetoden kšrs antal ggr" + get);
 		if (e == null || root == null) {
 			return null;
 		}
