@@ -171,7 +171,6 @@ A   z'             A   B C   D
         b   z'						x'  c
            / \					   / \
           c   d					  a   b
-<<<<<<< HEAD
 	 */
 	
 	/**
@@ -180,7 +179,7 @@ A   z'             A   B C   D
 	 * put as having its former parent as a leftwise-child who in turn gets
 	 * its former parent as its leftwise-child. The child element of the 
 	 * three entrys are being structured as shown in the picture above
-	 * @param x
+	 * @param x the wanted entry
 	 */
 	private void zigZig( Entry x) {
 		Entry y = x.right, z = x.right.right;
@@ -207,7 +206,7 @@ A   z'             A   B C   D
 		y.left = z;
 
 	}
-	/* Rotera ? steg i ?varv, dvs 
+	/* 
         	x'				z'
            / \			   / \
           y'  d			  a   y'
@@ -216,6 +215,15 @@ A   z'             A   B C   D
        / \					   / \
       a   b					  c   d
 
+	 */
+	
+	/**
+	 * If the sequence with the wanted element is structured as having a 
+	 * rightwise-parent who in turn has a rightwise-parent, the entry is
+	 * put as having its former parent as a rightwise-child who in turn gets
+	 * its former parent as its rightwise-child. The child element of the 
+	 * three entrys are being structured as shown in the picture above
+	 * @param x the wanted entry
 	 */
 	private void zagZag( Entry x) {
 		Entry y = x.left, z = x.left.left;
