@@ -3,20 +3,38 @@ package se.chalmers.datastrukt.lab2;
 import testSortCol.CollectionWithGet;
 import datastructures.BinarySearchTree;
 
-
+/**
+ * A class containing a splay-tree. Whenever an entry is collected from 
+ * the splay tree it is put on top of the splay tree. This is done by
+ * so called splaying where the structure in sequences until the entry
+ * is put at the root location, aka the top of the splay-tree.
+ * @author Tomas Sellden, Anton Palmqvist
+ *
+ * @param <E> The entrys of the splay tree
+ */
 public class SplayTree<E extends Comparable<? super E>> extends
-		BinarySearchTree<E> implements CollectionWithGet<E> {
+BinarySearchTree<E> implements CollectionWithGet<E> {
 
-    /* Rotera 1 steg i högervarv, dvs 
+	/* Rotera 1 steg i hgervarv, dvs 
     x'                 y'
    / \                / \
   y'  C   -->        A   x'
  / \                    / \  
 A   B                  B   C
-*/
+	 */
+	
+	/**
+	 * If the sequence with the wanted entry is structured with a parent having 
+	 * the entry as its left-wise child the entry is put at the top getting its 
+	 * former parent as its new rightwise-child. Also the entrys former 
+	 * rightwise-child-element is put as its former parent's leftwise-child-
+	 * element.
+	 * @param x the wanted entry
+	 */
 	private void zag(Entry x) {
 		Entry y = x.left;
 		E temp = x.element;
+		
 		x.element = y.element;
 		y.element = temp;
 		x.left = y.left;
@@ -32,17 +50,29 @@ A   B                  B   C
 
 	} // rotateRight
 
-/* Rotera 1 steg i vänstervarv, dvs 
+	/* Rotera 1 steg i vnstervarv, dvs 
     x'                 y'
    / \                / \
   A   y'  -->        x'  C
      / \            / \  
     B   C          A   B   
-*/
+	 */
 	
+	/**
+	 * If the sequence with the wanted entry is structured with a parent having 
+	 * the entry as its right-wise child the entry is put at the top getting its 
+	 * former parent as its new leftwise-child. Also the entry's former 
+	 * leftwise-child-element is put as its former parent's rightwise-child-
+	 * element.
+	 * @param x the wanted entry
+	 */
 	private void zig(Entry x) {
 		Entry y = x.right;
 		E temp = x.element;
+		if(x==null)
+			System.out.println("X IS NULL");
+		if(y==null)
+			System.out.println("Y IS NULL");
 		x.element = y.element;
 		y.element = temp;
 		x.right = y.right;
@@ -58,7 +88,7 @@ A   B                  B   C
 
 	} // rotateLeft
 
-/* Rotera 2 steg i högervarv, dvs 
+	/* Rotera 2 steg i hgervarv, dvs 
     x'                  z'
    / \                /   \
   y'  D   -->        y'    x'
@@ -66,7 +96,16 @@ A   B                  B   C
 A   z'             A   B C   D
    / \  
   B   C  
-*/
+	 */
+	
+	/**
+	 * If the sequence with the wanted entry is structured as having a 
+	 * leftwise parent who in turn has a rightwise parent the entry is 
+	 * put on top getting its former parent as its leftwise child and 
+	 * its former grandparent as its rightwise child. The child-elements 
+	 * are structured as shown in the picture above.
+	 * @param x the wanted entry
+	 */
 	private void zagZig(Entry x) {
 		Entry y = x.left, z = x.left.right;
 		E e = x.element;
@@ -86,7 +125,7 @@ A   z'             A   B C   D
 
 	} // doubleRotateRight
 
-/* Rotera 2 steg i vänstervarv, dvs 
+	/* Rotera 2 steg i vnstervarv, dvs 
     x'                  z'
    / \                /   \
   A   y'   -->       x'    y'
@@ -94,7 +133,15 @@ A   z'             A   B C   D
     z   D          A   B C   D
    / \  
   B   C  
-*/
+	 */
+	/**
+	 * If the sequence with the wanted entry is structured as having a 
+	 * rightwise parent who in turn has a leftwise parent the entry is 
+	 * put on top getting its former parent as its rightwise child and 
+	 * its former grandparent as its leftwise child. The child-elements 
+	 * are structured as shown in the picture above.
+	 * @param x the wanted entry
+	 */
 	private void zigZag(Entry x) {
 		Entry y = x.right, z = x.right.left;
 		E e = x.element;
@@ -115,8 +162,8 @@ A   z'             A   B C   D
 
 	} // doubleRotateLeft
 
-	
-	/* Rotera ? steg i ?varv, dvs 
+
+	/* 
         x' 								z'
        / \							   / \
       a	  y'						  y'  d
@@ -124,9 +171,17 @@ A   z'             A   B C   D
         b   z'						x'  c
            / \					   / \
           c   d					  a   b
-*/
+	 */
 	
-	private void zigZig(Entry x) {
+	/**
+	 * If the sequence with the wanted element is structured as having a 
+	 * leftwise-parent who in turn has a leftwise-parent, the entry is
+	 * put as having its former parent as a leftwise-child who in turn gets
+	 * its former parent as its leftwise-child. The child element of the 
+	 * three entrys are being structured as shown in the picture above
+	 * @param x the wanted entry
+	 */
+	private void zigZig( Entry x) {
 		Entry y = x.right, z = x.right.right;
 		E e = x.element;
 		x.element = z.element;
@@ -149,8 +204,9 @@ A   z'             A   B C   D
 		}
 		x.left = y;
 		y.left = z;
+
 	}
-	/* Rotera ? steg i ?varv, dvs 
+	/* 
         	x'				z'
            / \			   / \
           y'  d			  a   y'
@@ -160,7 +216,16 @@ A   z'             A   B C   D
       a   b					  c   d
 
 	 */
-	private void ZagZag( Entry x) {
+	
+	/**
+	 * If the sequence with the wanted element is structured as having a 
+	 * rightwise-parent who in turn has a rightwise-parent, the entry is
+	 * put as having its former parent as a rightwise-child who in turn gets
+	 * its former parent as its rightwise-child. The child element of the 
+	 * three entrys are being structured as shown in the picture above
+	 * @param x the wanted entry
+	 */
+	private void zagZag( Entry x) {
 		Entry y = x.left, z = x.left.left;
 		E tmp = x.element;
 		x.element = z.element;
@@ -183,7 +248,7 @@ A   z'             A   B C   D
 		}
 		y.right = z;
 		x.right = y;
-		
+
 	}
 	
 	public Entry search(E e, Entry entry) {
@@ -210,40 +275,41 @@ A   z'             A   B C   D
 	public Entry splay(Entry entry) {
 		while (entry.parent != null) {
 			if (entry.parent.parent == null) {
-				if (entry.parent.left != null && entry.parent.left.equals(entry)) {
+				Entry parent = entry.parent;
+				if (parent.left != null && parent.left.equals(entry)) {
 					zag(entry.parent);
 				} else  {
 					zig(entry.parent);
 				}
 				entry = entry.parent;
+				System.out.println("splayTest2");
 				return entry;
 			} else {
 				Entry grandParent = entry.parent.parent;
 				if (grandParent.left != null && grandParent.left.left != null
 						&& grandParent.left.left == entry) {
-					ZagZag(grandParent);
+					zagZag(grandParent);
 					entry= grandParent;
 				} else if (grandParent.right != null
 						&& grandParent.right.left != null
 						&& grandParent.right.left == entry) {
 					zigZag(grandParent);
-					 entry = entry.parent;
+					entry = entry.parent;
 				} else if (grandParent.left != null
 						&& grandParent.left.right != null
 						&& grandParent.left.right == entry) {
 					zagZig(grandParent);
-					 entry = entry.parent;
+					entry = entry.parent;
 				} else if (grandParent.right != null
 						&& grandParent.right.right != null
 						&& grandParent.right.right == entry) {
 					zigZig(grandParent);
-					 entry = grandParent;
+					entry = grandParent;
 				}
 			}
 		}
 		return entry;
 	}
-	
 	@Override
 	public E get(E e) {
 		if (e == null || root == null) {
@@ -259,7 +325,10 @@ A   z'             A   B C   D
 			return null;
 		}
 		entry = splay(entry);
-		
+
 		return entry.element;
+	}
+	public static void main(String[] args) {
+		SplayTree<String> splay = new SplayTree<String>();
 	}
 }
