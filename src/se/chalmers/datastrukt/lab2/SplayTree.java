@@ -208,9 +208,6 @@ A   z'             A   B C   D
 		return current;
 	}
 	public Entry splay(Entry entry) {
-		if(entry == null || entry.parent == null) {
-			return null;
-		}
 		while (entry.parent != null) {
 			if (entry.parent.parent == null) {
 				if (entry.parent.left != null && entry.parent.left.equals(entry)) {
@@ -223,22 +220,22 @@ A   z'             A   B C   D
 			} else {
 				Entry grandParent = entry.parent.parent;
 				if (grandParent.left != null && grandParent.left.left != null
-						&& grandParent.left.left.equals(entry)) {
+						&& grandParent.left.left == entry) {
 					ZagZag(grandParent);
 					entry= grandParent;
 				} else if (grandParent.right != null
 						&& grandParent.right.left != null
-						&& grandParent.right.left.equals(entry)) {
+						&& grandParent.right.left == entry) {
 					zigZag(grandParent);
 					 entry = entry.parent;
 				} else if (grandParent.left != null
 						&& grandParent.left.right != null
-						&& grandParent.left.right.equals(entry)) {
+						&& grandParent.left.right == entry) {
 					zagZig(grandParent);
 					 entry = entry.parent;
 				} else if (grandParent.right != null
 						&& grandParent.right.right != null
-						&& grandParent.right.right.equals(entry)) {
+						&& grandParent.right.right == entry) {
 					zigZig(grandParent);
 					 entry = grandParent;
 				}
@@ -253,7 +250,7 @@ A   z'             A   B C   D
 			return null;
 		}
 
-		if (e.compareTo(root.element) == 0) {
+		if ( e == root.element) {
 			return e;
 		}
 
