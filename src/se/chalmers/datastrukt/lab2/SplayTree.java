@@ -69,10 +69,6 @@ A   B                  B   C
 	private void zig(Entry x) {
 		Entry y = x.right;
 		E temp = x.element;
-		if(x==null)
-			System.out.println("X IS NULL");
-		if(y==null)
-			System.out.println("Y IS NULL");
 		x.element = y.element;
 		y.element = temp;
 		x.right = y.right;
@@ -282,7 +278,6 @@ A   z'             A   B C   D
 					zig(entry.parent);
 				}
 				entry = entry.parent;
-				System.out.println("splayTest2");
 				return entry;
 			} else {
 				Entry grandParent = entry.parent.parent;
