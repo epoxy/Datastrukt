@@ -8,7 +8,7 @@ import datastructures.BinarySearchTree;
  * the splay tree it is put on top of the splay tree. This is done by
  * so called splaying where the structure in sequences until the entry
  * is put at the root location, aka the top of the splay-tree.
- * @author Tomas Sellden, Anton Palmqvist
+ * @author Tomas Sellden, Anton Palmqvist group 36
  *
  * @param <E> The entrys of the splay tree
  */
@@ -24,11 +24,11 @@ A   B                  B   C
 	 */
 	
 	/**
-	 * If the sequence with the wanted entry is structured with a parent having 
-	 * the entry as its left-wise child the entry is put at the top getting its 
-	 * former parent as its new rightwise-child. Also the entrys former 
-	 * rightwise-child-element is put as its former parent's leftwise-child-
-	 * element.
+	 * If the sequence with the wanted entry is structured with a parent
+	 * having the entry as its left-wise child the entry is put at the 
+	 * top getting its former parent as its new rightwise-child. Also 
+	 * the entrys former rightwise-child-element is put as its 
+	 * former parent's leftwise-child- element.
 	 * @param x the wanted entry
 	 */
 	private void zag(Entry x) {
@@ -59,11 +59,11 @@ A   B                  B   C
 	 */
 	
 	/**
-	 * If the sequence with the wanted entry is structured with a parent having 
-	 * the entry as its right-wise child the entry is put at the top getting its 
-	 * former parent as its new leftwise-child. Also the entry's former 
-	 * leftwise-child-element is put as its former parent's rightwise-child-
-	 * element.
+	 * If the sequence with the wanted entry is structured with a parent
+	 * having the entry as its right-wise child the entry is put at the 
+	 * top getting its former parent as its new leftwise-child. Also the
+	 * entry's former leftwise-child-element is put as its former parent's
+	 * rightwise-child-element.
 	 * @param x the wanted entry
 	 */
 	private void zig(Entry x) {
@@ -250,7 +250,20 @@ A   z'             A   B C   D
 		x.right = y;
 
 	}
-	
+
+	/**
+	 * Search for the element e from the entry root, if the method finds the
+	 * element e it will return the element if it doesnt find the element it
+	 * will invoke the method splay with the "parent" entry that has the 
+	 * closest element as e
+	 * 
+	 * @param e
+	 *            the element we search for in the SplayTree
+	 * @param entry
+	 *            will always be the root of the tree
+	 * @return the entry if it find it in the SplayTree else it will 
+	 * return null
+	 */
 	public Entry search(E e, Entry entry) {
 		Entry previous = null;
 		Entry current = entry;
@@ -272,6 +285,18 @@ A   z'             A   B C   D
 		}
 		return current;
 	}
+
+	/**
+	 * Searching where in the splaytree the entry exists, depending on where in
+	 * the tree it will invoke 6 different methods to "splay" the tree so it
+	 * will be more effective (take less operations) to find an element next
+	 * time we search for another element. It will do this as long as the entry
+	 * isn«t the the root of the Splay tree.
+	 * 
+	 * @param entry
+	 *            the entry we will splay to it reach the root
+	 * @return the same entry as we invoked the methods with
+	 */
 	public Entry splay(Entry entry) {
 		while (entry.parent != null) {
 			if (entry.parent.parent == null) {
@@ -327,8 +352,5 @@ A   z'             A   B C   D
 		entry = splay(entry);
 
 		return entry.element;
-	}
-	public static void main(String[] args) {
-		SplayTree<String> splay = new SplayTree<String>();
 	}
 }
