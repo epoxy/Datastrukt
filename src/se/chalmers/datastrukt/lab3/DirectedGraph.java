@@ -20,8 +20,8 @@ public class DirectedGraph<E extends Edge> {
 
 	public void addEdge(E e) {
 		edges[e.getSource()].add(e);
-		
-		}
+
+	}
 
 	public Iterator<E> shortestPath(int from, int to) {
 		boolean[] visitedNode = new boolean[noOfNodes];
@@ -50,7 +50,7 @@ public class DirectedGraph<E extends Edge> {
 	}
 
 	private class CompKruskalEdge {
-		
+
 	}
 
 	private class DijkstraElement<E extends Edge> implements
@@ -60,31 +60,35 @@ public class DirectedGraph<E extends Edge> {
 		public int to;
 		public double weight;
 		public List<E> theShortestPath;
-	
+
 		public DijkstraElement(int from) {
 			this.to = from;
 			this.weight = 0;
 			this.theShortestPath = new LinkedList<E>();
-			
 
 		}
 
 		public DijkstraElement(DijkstraElement<E> elem, E edge) {
 			this.to = elem.to; // to?
-			this.weight = elem.weight;// hmmm			
+			this.weight = elem.weight;// hmmm
 			this.theShortestPath = new LinkedList<E>(elem.theShortestPath);
-			theShortestPath.add(edge);
-			this.weight += edge.getWeight();
-			//this.to = to;
+			addElementToShortestPath(theShortestPath, edge);
 
 		}
+
+		public void addElementToShortestPath(List<E> shPath, E edge) {
+			theShortestPath.add(edge);
+			this.weight += edge.getWeight();
+			this.to = edge.to;
+		}
+
 		public List<E> getPath() {
 			List<E> temp = new LinkedList<E>();
-			
-			for(E elem : this.theShortestPath) {
+
+			for (E elem : this.theShortestPath) {
 				temp.add(elem);
 			}
-			
+
 			return temp;
 		}
 
