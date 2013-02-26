@@ -15,10 +15,11 @@ import javax.swing.JScrollPane;
 * in this directory.
 * @author (Bror Bjerner)
 * @author Some enhancements made 
-* by Erland Holmström (2010: Swedish letters, scrollable panes,
-* 2011: completion of input)
+* 2010 Erland Holmström: (Swedish letters, scrollable panes)
+* 2011 Erland Holmström: (completion of input)
+* 2012 modified graph drawing by Jesper Lloyd (see DrawGraph.java)
 * (@TODO: the stations should be clickable)
-* @version (2011)
+* @version (2012)
 */ 
 public class ShortRoute extends JFrame implements ActionListener {
 	/**
@@ -39,8 +40,8 @@ public class ShortRoute extends JFrame implements ActionListener {
 		"  Använd Return för att expandera ord \n" +
 		"  och för att starta beräkningen \n" +
 		"  samt tab för att gå till nästa";
-	String felTextStart = "Angiven starthållplats finns ej !!";
-	String felTextSlut  = "Angiven sluthållplats finns ej !!";
+	String felTextStart = "Angiven starthållplats finns ej (pröva fler tecken)";
+	String felTextSlut  = "Angiven sluthållplats finns ej (pröva fler tecken)";
 	String frome = "från";
 	DrawGraph karta = new DrawGraph(); 
 	
@@ -51,7 +52,7 @@ public class ShortRoute extends JFrame implements ActionListener {
 	* information from files lines-gbg.txt and stops-gbg.txt and makes itself 
 	* visible.
 	*/
-	public ShortRoute() {
+	public ShortRoute(String file) {
 				
 		// try to convert to UTF-8 across plattforms to make Swedish chars work
 		//System.out.println("charset = " + java.nio.charset.Charset.defaultCharset()); 
@@ -68,8 +69,12 @@ public class ShortRoute extends JFrame implements ActionListener {
 		// read the graph and draw it in a separate window
 		// creates the graph and fills the p-queue "names"
 		karta.setLocation(50, 250);
-		readAndDrawGraph();
-		System.out.println("graph drawn");   // debug
+		if (file==null) {
+			readAndDrawGraph();
+		} else {
+			readAndDrawBIGGraph(file);
+		}
+		System.out.println("Version with sorting fixed");   // debug
 		// now to the graphics in the Frame
 		// Left part
 		// select is a panel for structuring the left part
@@ -214,7 +219,6 @@ public class ShortRoute extends JFrame implements ActionListener {
 	} //  findMinSpan
 	// ====================================================================
 	private void findShort() {
-		// @TODO tag bort gamla vägen dvs rita om grafen
 		// svårt att behålla linjefärgerna?
 		int start, slut;
 		try{ // read from station
@@ -275,8 +279,6 @@ public class ShortRoute extends JFrame implements ActionListener {
 	private void readAndDrawGraph() {
 		// @TODO
 		// hur rita flera linjer mellan 2 noder? (för flera linjer)
-		// redraw should be done by saving the graph in Graph
-		// and doing a repaint
 		// reading of the graph should be done in the graph itself
 		// it should be possible to get an iterator over nodes and one over edges
 		// read in all the stops and lines and draw the lmap
@@ -313,7 +315,7 @@ public class ShortRoute extends JFrame implements ActionListener {
 				int    from   = noderna.find( indata.next() ).getNodeNo();
 				// hur rita flera linjer mellan 2 noder?
 				// enkel inc fungerar inte
-				// färgen borde vara "äkta" dvs linjefärg
+				// färgen kunde vara "äkta" dvs linjefärg
 				Color color = new Color((float)Math.random(), 
 										(float)Math.random(), 
 										(float)Math.random());
@@ -338,8 +340,70 @@ public class ShortRoute extends JFrame implements ActionListener {
 		karta.repaint();
 	} // end readAndDrawGraph
 	
+	// experimental
+	// ====================================================================
+	// ====================================================================
+	// ====================================================================
+	private void readAndDrawBIGGraph(String file) {
+		// behövs inte än
+		// @TODO
+		// hur rita flera linjer mellan 2 noder? (för flera linjer)
+		// reading of the graph should be done in the graph itself
+		// it should be possible to get an iterator over nodes and one over edges
+		// read in all the stops and lines and draw the lmap
+		Scanner indata = null;
+		// insert into p-queue to get them sorted
+		names = new PriorityQueue<String>();
+		try {
+			// Read stops and put them in the node-table 
+			// in order to give the user a list of possible stops
+			// assume input file is correct
+			indata = new Scanner(new File(file+"-stops.txt"), "ISO-8859"); //
+			while (indata.hasNext()) {
+				String hpl = indata.next().trim();
+				int xco = indata.nextInt();
+				int yco = indata.nextInt();
+				noderna.add(new BusStop(hpl, xco, yco));
+				names.add(hpl);
+				// Draw
+				// this is a fix: fixa att Kålltorp och Torp är samma hållplats
+				if ( hpl.equals("Torp") ) {
+					xco += 11;
+					hpl = "   / Torp";
+				}
+				karta.drawString(hpl, xco, yco,DrawGraph.Layer.BASE); 
+			}
+			indata.close();
+			
+			//  Read in the lines and add to the graph
+			indata =  new Scanner(new File(file+"-lines.txt"), "ISO-8859");
+			grafen = new DirectedGraph<BusEdge>(noderna.noOfNodes());
+			Color color = new Color((float)Math.random(), 
+									(float)Math.random(), 
+									(float)Math.random()); //
+			String lineNo = "1"; //
+			while ( indata.hasNext() ) { // assume lines are correct
+				int from = noderna.find( indata.next() ).getNodeNo();
+				int to   = noderna.find( indata.next() ).getNodeNo();
+				grafen.addEdge(new BusEdge(from, to, indata.nextInt(), lineNo ));
+				indata.nextLine(); // skip rest of line
+				// Draw
+				BusStop busFrom = noderna.find(from);
+				BusStop busTo   = noderna.find(to);
+				karta.drawLine(busFrom.xpos, busFrom.ypos, 
+								  busTo.xpos, busTo.ypos, color, 2.0f, DrawGraph.Layer.BASE);
+			}
+			indata.close();
+		} 
+		catch (FileNotFoundException fnfe) {
+			throw new RuntimeException(
+				" Indata till busshållplatserna saknas" );
+		}
+		karta.repaint();
+	} // end readAndDrawBIGGraph
+	
 	public static void main(String[] args) {
-		new ShortRoute();
+		new ShortRoute(null);
 	}
 }  // end ShortRoute
 

@@ -1,15 +1,17 @@
 package se.chalmers.datastrukt.lab3;
 
 import java.util.*;
+import java.text.Collator;
 /*
-* Mapping between nod number and node name
-* @author rewritten by E Holmström 2011, added reallocate
+* Mapping between nod number and node name and vice versa.
+* @author Bror Bjerner, rewritten by E Holmström 2011, added reallocate
 */
 
 public class NodeTable <NO extends NodeObject>{ 
-
-	private TreeMap<String, NO>  fromName; // mapping name -> node object
-	private NO[]  fromNodeNo; // table of node objects i.e a mapping from node number to a node
+	/** This structure maps between a name and a NodeObject */
+	private TreeMap<String, NO>  fromName; 
+	/** This structure maps between an node number and a NodeObject */
+	private NO[]  fromNodeNo; 
 	private int   capacity = 10;
 	private int   size = 0;     
 	private int   modCount = 0;
@@ -23,7 +25,10 @@ public class NodeTable <NO extends NodeObject>{
 	public NodeTable(int initialNoOfNodes ) {
 		capacity = initialNoOfNodes;
 		fromNodeNo = (NO[]) new NodeObject[initialNoOfNodes];
-		fromName   = new TreeMap<String, NO>();
+		// to sort in "Swedish""
+		Locale locale = new Locale("sv", "se");
+	    Collator collator = Collator.getInstance(locale);
+		fromName   = new TreeMap<String, NO>(collator);
 		Arrays.fill(fromNodeNo, null);
 	}
 
@@ -62,15 +67,17 @@ public class NodeTable <NO extends NodeObject>{
 		 ett unikt namn (och trycka return)
 		 detta är dyrbart och inte optimalt så använd den inte i onödan 
 		 tex inte när du bygger upp grafen
-		 behövs inte för labben, find ovan räcker
+		 behövs egentligen inte för labben, find ovan räcker
 		 @TODO felokänslig typ "bevaring" ger Beväringsgatan
 		*/
-		
+		// make sure that name is lower case
+		//name = name.toLowerCase();
 		// try to lookup the name 
 		NO tmpNode = fromName.get(name);
-		if ( tmpNode != null ) {
-			return tmpNode;
+		if ( tmpNode != null ) { // direct hit
+			return tmpNode; 
 		} else {
+			// here is the challenge
 			// we didn't find the name, try to find a substring
 			// this is expensive...
 			// make a string of the map
@@ -79,10 +86,17 @@ public class NodeTable <NO extends NodeObject>{
 			tmp = tmp.substring(1, tmp.length()-1);
 			// split the string
 			String[] tmpArr = tmp.split(", ");
-			// now finally we have an array with the strings twice 
+			// now we have an array with the strings twice 
 			// like this "station=station"
-			/* debug
+			// make it an array with only the station i.e. "station"
+			for (int i=0; i< tmpArr.length; i++) {
+				tmpArr[i] = tmpArr[i].split("=")[1];
+			}
+			// make sure data is sorted since a TreeMap can't sort rigth!!!!
+			Arrays.sort(tmpArr);
+			/* debug print tmpArr with its position in the array
 			int i = 0;
+			System.out.println("tmpArr= ");
 			for (String p : tmpArr ) {
 				System.out.println( "" + i++ + " *" + p + "*");
 			}
@@ -91,35 +105,30 @@ public class NodeTable <NO extends NodeObject>{
 			Now we do a binary search for the station. We don't expect to find 
 			it but we get the position where it should be. 
 			So we can search in the neighbourhood .
-			index of the search key, if it is contained in the list; otherwise, 
-			(-(insertion point) - 1). The insertion point is defined as the point 
+			@return index of the search key, if it is contained in the list; otherwise, 
+			(-(insertion point) - 1). (So this is what we expect to get.)
+			The insertion point is defined as the point 
 			at which the key would be inserted into the list: the index of the 
 			first element greater than the key, or list.size(), if all elements 
 			in the list are less than the specified key. Note that this guarantees 
 			that the return value will be >= 0 if and only if the key is found. 
 			*/
-			//System.out.println("name= " + name);
-			int pos = Arrays.binarySearch(tmpArr, name+"="+name);
-			//System.out.println(pos);
+			int pos = Arrays.binarySearch(tmpArr, name);
 			pos = Math.abs(pos+1);
-			//System.out.println(pos);
-			//System.out.println(tmpArr[pos]); 
+				//System.out.println("****" + pos);    // debug
+				//System.out.println(tmpArr[pos]);     // debug
+				//System.out.println("name= " + name);  // debug
 			int l = name.length();
-			//System.out.println(name + " name");
-			//System.out.println(tmpArr[pos].substring(0, l) + " substring");
+			// long input strings are not ok, shorten
+			if ( l > tmpArr[pos].length() ) {
+				l = tmpArr[pos].length();
+			}
 			if ( tmpArr[pos].substring(0, l).equals(name) 
 						&& ( pos==tmpArr.length-1 
 							||  !(tmpArr[pos+1].substring(0, l).equals(name)))
 				) {
-				//System.out.println(find(pos) + " found");
-				//System.out.println(find(pos-1) + " found before");
-				//System.out.println(find(133)  + " last");
-				return find(pos);
+				return find(tmpArr[pos]);
 			} else {
-				//System.out.println(find(pos) + " found");
-				//System.out.println(find(pos-1) + " found before");
-				//System.out.println(find(133)  + " last");
-				//System.out.println("not found");
 				return null;
 			}
 		}

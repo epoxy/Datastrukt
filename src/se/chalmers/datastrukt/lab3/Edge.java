@@ -1,21 +1,20 @@
 package se.chalmers.datastrukt.lab3;
 
 /**
-* A minimal object for edges in a directed graph of type DirectedGraph.
-* Note that the weight is given by a abstract method, since it can be more 
+* A minimal object for edges in a directed graph (here of type DirectedGraph).
+* Note that the weight is given by an abstract method, since it can be more 
 * complicated than just a number.
 * The subclasses constructors is supposed to have at least integers
 * for from and to as arguments.
-* @author (Bror Bjerner)
-* @version (2001)
-* @author (Erland Holmström)
+* @author (Bror Bjerner, version 2001)
+* @author Erland Holmström
 * @version (2011 added getters, toString, hashCode and equals)
 */
 public abstract class Edge {
 
 	/**
 	* The nodes from which the edge starts to which 
-	* the edge ends. Should never change !
+	* the edge ends. Should never change!
 	*/
 	/** The source vertix */
 	public final int from;
@@ -27,8 +26,8 @@ public abstract class Edge {
 	* given to the constructor.
 	*/
 	public Edge( int from, int to ) {
-		this.from   = from;
-		this.to     = to;
+		this.from = from;
+		this.to   = to;
 	}
 
 	/**
@@ -67,7 +66,7 @@ public abstract class Edge {
 	}
 
 	/** Return true if two edges are equal. Edges are equal if the source and 
-	destination are equal. Weight is not conidered.
+	destination are equal. Weight is not concidered.
 	@param obj The object to compare to
 	@return true if the edges have the same source and destination
 	*/

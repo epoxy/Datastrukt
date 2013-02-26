@@ -19,8 +19,8 @@ import javax.swing.JPanel;
 * A class for drawing a graph.
 * ( it's really only drawing text and lines and have no idea what it is drawing)
 * @author Original map drawing is thanks to Tommi Kerola and Marcus Johansson IT students 2010
-* @author changes by Erland Holmström 2010
-* @author rewritten 2011 by Jesper Lloyd
+* @author lots of changes by Erland Holmström 2010
+* @author rewritten 2011 by Jesper Lloyd (two layers)
 * @TODO måste kunna rita riktade grafer
 * "version 2012-02
 */
@@ -41,10 +41,12 @@ public class DrawGraph extends JFrame {
 		base = new GraphLayer();
 		base.setSize(windSize);
 		base.setLayout(null);
+		
 		overlay = new GraphLayer();
 		overlay.setOpaque(false);
 		overlay.setSize(windSize);
 		overlay.setLayout(null);
+		
 		getContentPane().add(base);
 		base.add(overlay);
 		pack();
