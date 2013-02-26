@@ -7,11 +7,11 @@ public class DirectedGraph<E extends Edge> {
 	private List<E>[] edges;
 	private CompKruskalEdge cKE = new CompKruskalEdge();
 	private int noOfNodes;
-	private PriorityQueue<DijkstraElement> prioQueue;
+	private PriorityQueue<ComparableDijkstraPath> prioQueue;
 
 	public DirectedGraph(int noOfNodes) {
 		this.noOfNodes = noOfNodes;
-		this.prioQueue = new PriorityQueue<DijkstraElement>();
+		this.prioQueue = new PriorityQueue<ComparableDijkstraPath>();
 		edges = new List[noOfNodes];
 		for (int i = 0; i < noOfNodes; i++) {
 			edges[i] = new LinkedList<E>();
@@ -26,9 +26,9 @@ public class DirectedGraph<E extends Edge> {
 	public Iterator<E> shortestPath(int from, int to) {
 		boolean[] visitedNode = new boolean[noOfNodes];
 
-		prioQueue.add(new DijkstraElement<E>(from));
+		prioQueue.add(new ComparableDijkstraPath<E>(from));
 		while (prioQueue.size() != 0) {
-			DijkstraElement<E> dE = prioQueue.poll();
+			ComparableDijkstraPath<E> dE = prioQueue.poll();
 			if (!visitedNode[dE.to]) {
 				if (dE.to == to) {
 					dE.getPath().iterator();
@@ -36,7 +36,7 @@ public class DirectedGraph<E extends Edge> {
 					visitedNode[dE.to] = true;
 					for (E edge : this.edges[dE.to]) {
 						visitedNode[edge.to] = true;
-						prioQueue.add(new DijkstraElement(dE, edge));
+						prioQueue.add(new ComparableDijkstraPath(dE, edge));
 					}
 				}
 			}
@@ -53,30 +53,30 @@ public class DirectedGraph<E extends Edge> {
 
 	}
 
-	private class DijkstraElement<E extends Edge> implements
-			Comparable<DijkstraElement> {
+	private class ComparableDijkstraPath<E extends Edge> implements
+			Comparable<ComparableDijkstraPath> {
 		// private public kmr Œt dem i klassen eftersom dem Šr publika men ej
 		// utanfšr klassen eftersom dem Šr i en inre klass!
 		public int to;
 		public double weight;
 		public List<E> theShortestPath;
 
-		public DijkstraElement(int from) {
+		public ComparableDijkstraPath(int from) {
 			this.to = from;
 			this.weight = 0;
 			this.theShortestPath = new LinkedList<E>();
 
 		}
 
-		public DijkstraElement(DijkstraElement<E> elem, E edge) {
-			this.to = elem.to; // to?
-			this.weight = elem.weight;// hmmm
-			this.theShortestPath = new LinkedList<E>(elem.theShortestPath);
-			addElementToShortestPath(theShortestPath, edge);
+		public ComparableDijkstraPath(ComparableDijkstraPath<E> path, E edge) {
+			this.to = path.to; // to?
+			this.weight = path.weight;// hmmm
+			this.theShortestPath = new LinkedList<E>(path.theShortestPath);
+			addpathentToShortestPath(theShortestPath, edge);
 
 		}
 
-		public void addElementToShortestPath(List<E> shPath, E edge) {
+		public void addpathentToShortestPath(List<E> shPath, E edge) {
 			theShortestPath.add(edge);
 			this.weight += edge.getWeight();
 			this.to = edge.to;
@@ -85,14 +85,14 @@ public class DirectedGraph<E extends Edge> {
 		public List<E> getPath() {
 			List<E> temp = new LinkedList<E>();
 
-			for (E elem : this.theShortestPath) {
-				temp.add(elem);
+			for (E path : this.theShortestPath) {
+				temp.add(path);
 			}
 
 			return temp;
 		}
 
-		public int compareTo(DijkstraElement other) {
+		public int compareTo(ComparableDijkstraPath other) {
 			return Double.compare(weight, other.weight);
 		}
 	}
