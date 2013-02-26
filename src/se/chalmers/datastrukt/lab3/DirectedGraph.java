@@ -2,8 +2,6 @@ package se.chalmers.datastrukt.lab3;
 
 import java.util.*;
 
-import sun.awt.windows.ThemeReader;
-
 public class DirectedGraph<E extends Edge> {
 
 	private List<E>[] edges;
@@ -28,17 +26,17 @@ public class DirectedGraph<E extends Edge> {
 	public Iterator<E> shortestPath(int from, int to) {
 		boolean[] visitedNode = new boolean[noOfNodes];
 
-		prioQueue.add(new DijkstraElement(from));
+		prioQueue.add(new DijkstraElement<E>(from));
 		while (prioQueue.size() != 0) {
-			DijkstraElement dE = prioQueue.poll();
-			if (!visitedNode[dE.edgeNo]) {
-				if (dE.edgeNo == to) {
+			DijkstraElement<E> dE = prioQueue.poll();
+			if (!visitedNode[dE.to]) {
+				if (dE.to == to) {
 					dE.getPath().iterator();
 				} else {
-					visitedNode[dE.edgeNo] = true;
-					for (E edge : this.edges[dE.edgeNo]) {
+					visitedNode[dE.to] = true;
+					for (E edge : this.edges[dE.to]) {
 						visitedNode[edge.to] = true;
-						prioQueue.add(new DijkstraElement(edge));
+						prioQueue.add(new DijkstraElement(dE, edge));
 					}
 				}
 			}
@@ -59,22 +57,25 @@ public class DirectedGraph<E extends Edge> {
 			Comparable<DijkstraElement> {
 		// private public kmr Œt dem i klassen eftersom dem Šr publika men ej
 		// utanfšr klassen eftersom dem Šr i en inre klass!
-		public int edgeNo;
+		public int to;
 		public double weight;
 		public List<E> theShortestPath;
 	
 		public DijkstraElement(int from) {
-			this.edgeNo = from;
+			this.to = from;
 			this.weight = 0;
 			this.theShortestPath = new LinkedList<E>();
 			
 
 		}
 
-		public DijkstraElement(E edge) {
-			this.edgeNo = edge.from; // to?
-			this.weight = edge.getWeight();			
+		public DijkstraElement(DijkstraElement<E> elem, E edge) {
+			this.to = elem.to; // to?
+			this.weight = elem.weight;// hmmm			
+			this.theShortestPath = new LinkedList<E>(elem.theShortestPath);
 			theShortestPath.add(edge);
+			this.weight += edge.getWeight();
+			//this.to = to;
 
 		}
 		public List<E> getPath() {
