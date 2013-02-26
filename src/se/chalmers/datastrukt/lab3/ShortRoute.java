@@ -347,7 +347,8 @@ public class ShortRoute extends JFrame implements ActionListener {
  * Hej,
 
 här är en enkel (men inte särskilt effektiv) lösning på grafuppritningen i den tredje labben.
-Den ersätter varje drawString() med en JLabel och skapar två "lager" (inre klasser som ärver JPanel) som tar hand om och ritar upp objekt med gränssnittet Shape.
+Den ersätter varje drawString() med en JLabel och skapar två "lager" (inre klasser som ärver JPanel) 
+som tar hand om och ritar upp objekt med gränssnittet Shape.
 
 Den fullständiga grafen läggs i ett baslager och rutter ritas i ett lager ovanpå.
 
