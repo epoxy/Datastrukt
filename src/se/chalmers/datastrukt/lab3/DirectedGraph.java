@@ -2,6 +2,8 @@ package se.chalmers.datastrukt.lab3;
 
 import java.util.*;
 
+import sun.awt.windows.ThemeReader;
+
 public class DirectedGraph<E extends Edge> {
 
 	private List<E>[] edges;
@@ -14,9 +16,9 @@ public class DirectedGraph<E extends Edge> {
 		theShortestPath = new LinkedList<E>();
 		this.noOfNodes = noOfNodes;
 		this.prioQueue = new PriorityQueue<ComparableDijkstraPath>();
-		edges = new List[noOfNodes]; //skapar lista av kanter
+		edges = new List[noOfNodes];
 		for (int i = 0; i < noOfNodes; i++) {
-			edges[i] = new LinkedList<E>(); //skapar länkade listor för varje kant
+			edges[i] = new LinkedList<E>();
 		}
 	}
 
@@ -27,9 +29,8 @@ public class DirectedGraph<E extends Edge> {
 
 	public Iterator<E> shortestPath(int from, int to) {
 		boolean[] visitedNode = new boolean[noOfNodes];
-		ComparableDijkstraPath<E> dE = new new ComparableDijkstraPath<E>(from, null,  )
-		prioQueue.add(new ComparableDijkstraPath<E>(from, null,  theShortestPath));
-		theShortestPath
+		ComparableDijkstraPath<E> dE = new ComparableDijkstraPath<E>(from, 0, theShortestPath);
+		prioQueue.add(dE);
 		while (prioQueue.size() != 0) {
 			 dE = prioQueue.poll();
 			if (!visitedNode[dE.to]) {
@@ -39,7 +40,9 @@ public class DirectedGraph<E extends Edge> {
 					visitedNode[dE.to] = true;
 					for (E edge : this.edges[dE.to]) {
 						if (!visitedNode[edge.to]) {
-							prioQueue.add(new ComparableDijkstraPath<E>(dE, edge));
+							dE = new ComparableDijkstraPath<E>(edge.to, dE.weight + edge.getWeight(), theShortestPath);
+							prioQueue.add(dE);
+							theShortestPath.add(dE);
 						}
 					}
 				}
@@ -69,13 +72,13 @@ public class DirectedGraph<E extends Edge> {
 			this.to = from;
 			this.weight = 0;
 			this.theShortestPath = new LinkedList<E>();
+
 		}
 
 		public ComparableDijkstraPath(ComparableDijkstraPath<E> path, E edge) {
 			this.to = path.to; // to?
 			this.weight = path.weight;// hmmm
-			//this.theShortestPath = new LinkedList<E>(path.theShortestPath);
-			this.theShortestPath.add(edge);
+			this.theShortestPath = new LinkedList<E>(path.theShortestPath);
 			addpathentToShortestPath(theShortestPath, edge);
 
 		}*/
