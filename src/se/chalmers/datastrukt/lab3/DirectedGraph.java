@@ -2,48 +2,42 @@ package se.chalmers.datastrukt.lab3;
 
 import java.util.*;
 
-import sun.awt.windows.ThemeReader;
-
 public class DirectedGraph<E extends Edge> {
 
-	private List<E>[] edges;
-	private CompKruskalEdge cKE = new CompKruskalEdge();
+	private List<E>[] graph;
 	private int noOfNodes;
-	private PriorityQueue<ComparableDijkstraPath> prioQueue;
+	private PriorityQueue<ComparableDijkstraPath<E>> prioQueue;
 	private List<E> theShortestPath;
 
 	public DirectedGraph(int noOfNodes) {
-		theShortestPath = new LinkedList<E>();
 		this.noOfNodes = noOfNodes;
-		this.prioQueue = new PriorityQueue<ComparableDijkstraPath>();
-		edges = new List[noOfNodes];
+		this.prioQueue = new PriorityQueue<ComparableDijkstraPath<E>>();
+		graph = new List[noOfNodes];
 		for (int i = 0; i < noOfNodes; i++) {
-			edges[i] = new LinkedList<E>();
+			graph[i] = new LinkedList<E>();
 		}
 	}
 
 	public void addEdge(E e) {
-		edges[e.getSource()].add(e);
+		graph[e.getSource()].add(e);
 
 	}
 
 	public Iterator<E> shortestPath(int from, int to) {
 		boolean[] visitedNode = new boolean[noOfNodes];
-		ComparableDijkstraPath<E> dE = new ComparableDijkstraPath<E>(from, 0, theShortestPath);
-		prioQueue.add(dE);
+		prioQueue.add(new ComparableDijkstraPath<E>(from));
 		while (prioQueue.size() != 0) {
-			 dE = prioQueue.poll();
-			if (!visitedNode[dE.to]) {
-				if (dE.to == to) {
+			ComparableDijkstraPath<E> dE = prioQueue.poll();
+			if (!visitedNode[dE.last]) {
+				if (dE.last == to) {
 					return dE.getPath().iterator();
 				} else {
-					visitedNode[dE.to] = true;
-					for (E edge : this.edges[dE.to]) {
+					visitedNode[dE.last] = true;
+
+					for (E edge : this.graph[dE.last]) {
 						if (!visitedNode[edge.to]) {
-							dE = new ComparableDijkstraPath<E>(edge.to, dE.weight + edge.getWeight(), theShortestPath);
-							
-							prioQueue.add(dE);
-							
+							prioQueue.add(new ComparableDijkstraPath<E>(dE,
+									edge));
 						}
 					}
 				}
@@ -62,38 +56,29 @@ public class DirectedGraph<E extends Edge> {
 	}
 
 	private class ComparableDijkstraPath<E extends Edge> implements
-			Comparable<ComparableDijkstraPath> {
-		// private public kmr åt dem i klassen eftersom dem är publika men ej
-		// utanför klassen eftersom dem är i en inre klass!
-		public int to;
+			Comparable<ComparableDijkstraPath<E>> {
+		public int last;
 		public double weight;
 		public List<E> theShortestPath = new LinkedList<E>();;
 
-		/*public ComparableDijkstraPath(int from) {
-			this.to = from;
+		public ComparableDijkstraPath(int from) {
+			this.last = from;
 			this.weight = 0;
 			this.theShortestPath = new LinkedList<E>();
 
 		}
 
 		public ComparableDijkstraPath(ComparableDijkstraPath<E> path, E edge) {
-			this.to = path.to; // to?
-			this.weight = path.weight;// hmmm
+			this.weight = path.weight;
 			this.theShortestPath = new LinkedList<E>(path.theShortestPath);
-			addpathentToShortestPath(theShortestPath, edge);
+			addEdgeToShortestPath(edge);
 
-		}*/
-		public ComparableDijkstraPath(int to, double weight, List<E> theShortestPath) {
-			this.to = to;
-			this.weight += weight; // plusa på hela vikten så att hela shortestPathvikten finns med
-			theShortestPath = theShortestPath;
 		}
-		
-			
-		public void addpathentToShortestPath(List<E> shPath, E edge) {
-			//theShortestPath.add(edge);
+
+		public void addEdgeToShortestPath(E edge) {
+			theShortestPath.add(edge);
 			this.weight += edge.getWeight();
-			this.to = edge.to;
+			this.last = edge.to;
 		}
 
 		public List<E> getPath() {
@@ -106,7 +91,7 @@ public class DirectedGraph<E extends Edge> {
 			return temp;
 		}
 
-		public int compareTo(ComparableDijkstraPath other) {
+		public int compareTo(ComparableDijkstraPath<E> other) {
 			return Double.compare(weight, other.weight);
 		}
 	}
