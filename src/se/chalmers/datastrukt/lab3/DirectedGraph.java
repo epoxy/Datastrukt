@@ -12,9 +12,9 @@ public class DirectedGraph<E extends Edge> {
 	public DirectedGraph(int noOfNodes) {
 		this.noOfNodes = noOfNodes;
 		this.prioQueue = new PriorityQueue<ComparableDijkstraPath>();
-		edges = new List[noOfNodes];
+		edges = new List[noOfNodes]; //skapar lista av kanter
 		for (int i = 0; i < noOfNodes; i++) {
-			edges[i] = new LinkedList<E>();
+			edges[i] = new LinkedList<E>(); //skapar länkade listor för varje kant
 		}
 	}
 
@@ -65,13 +65,13 @@ public class DirectedGraph<E extends Edge> {
 			this.to = from;
 			this.weight = 0;
 			this.theShortestPath = new LinkedList<E>();
-
 		}
 
 		public ComparableDijkstraPath(ComparableDijkstraPath<E> path, E edge) {
 			this.to = path.to; // to?
 			this.weight = path.weight;// hmmm
-			this.theShortestPath = new LinkedList<E>(path.theShortestPath);
+			//this.theShortestPath = new LinkedList<E>(path.theShortestPath);
+			this.theShortestPath.add(edge);
 			addpathentToShortestPath(theShortestPath, edge);
 
 		}
