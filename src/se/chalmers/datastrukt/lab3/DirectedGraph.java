@@ -8,6 +8,7 @@ public class DirectedGraph<E extends Edge> {
 	private CompKruskalEdge cKE = new CompKruskalEdge();
 	private int noOfNodes;
 	private PriorityQueue<ComparableDijkstraPath> prioQueue;
+	private List<E> boom;
 
 	public DirectedGraph(int noOfNodes) {
 		this.noOfNodes = noOfNodes;
@@ -25,18 +26,20 @@ public class DirectedGraph<E extends Edge> {
 
 	public Iterator<E> shortestPath(int from, int to) {
 		boolean[] visitedNode = new boolean[noOfNodes];
-
+		ComparableDijkstraPath<E> dE;
 		prioQueue.add(new ComparableDijkstraPath<E>(from));
 		while (prioQueue.size() != 0) {
-			ComparableDijkstraPath<E> dE = prioQueue.poll();
+			dE = prioQueue.poll();
 			if (!visitedNode[dE.to]) {
 				if (dE.to == to) {
 					dE.getPath().iterator();
 				} else {
 					visitedNode[dE.to] = true;
 					for (E edge : this.edges[dE.to]) {
-						visitedNode[edge.to] = true;
-						prioQueue.add(new ComparableDijkstraPath(dE, edge));
+						if (!visitedNode[edge.to]) {
+							prioQueue.add(new ComparableDijkstraPath<E>(dE, edge));
+							boom = dE.getPath();
+						}
 					}
 				}
 			}
