@@ -8,9 +8,10 @@ public class DirectedGraph<E extends Edge> {
 	private CompKruskalEdge cKE = new CompKruskalEdge();
 	private int noOfNodes;
 	private PriorityQueue<ComparableDijkstraPath> prioQueue;
-	private List<E> boom;
+	private List<E> theShortestPath;
 
 	public DirectedGraph(int noOfNodes) {
+		theShortestPath = new LinkedList<E>();
 		this.noOfNodes = noOfNodes;
 		this.prioQueue = new PriorityQueue<ComparableDijkstraPath>();
 		edges = new List[noOfNodes];
@@ -26,10 +27,11 @@ public class DirectedGraph<E extends Edge> {
 
 	public Iterator<E> shortestPath(int from, int to) {
 		boolean[] visitedNode = new boolean[noOfNodes];
-		ComparableDijkstraPath<E> dE;
-		prioQueue.add(new ComparableDijkstraPath<E>(from));
+		ComparableDijkstraPath<E> dE = new new ComparableDijkstraPath<E>(from, null,  )
+		prioQueue.add(new ComparableDijkstraPath<E>(from, null,  theShortestPath));
+		theShortestPath
 		while (prioQueue.size() != 0) {
-			dE = prioQueue.poll();
+			 dE = prioQueue.poll();
 			if (!visitedNode[dE.to]) {
 				if (dE.to == to) {
 					dE.getPath().iterator();
@@ -38,7 +40,6 @@ public class DirectedGraph<E extends Edge> {
 					for (E edge : this.edges[dE.to]) {
 						if (!visitedNode[edge.to]) {
 							prioQueue.add(new ComparableDijkstraPath<E>(dE, edge));
-							boom = dE.getPath();
 						}
 					}
 				}
@@ -62,9 +63,9 @@ public class DirectedGraph<E extends Edge> {
 		// utanför klassen eftersom dem är i en inre klass!
 		public int to;
 		public double weight;
-		public List<E> theShortestPath;
+		//public List<E> theShortestPath = new LinkedList<E>();;
 
-		public ComparableDijkstraPath(int from) {
+		/*public ComparableDijkstraPath(int from) {
 			this.to = from;
 			this.weight = 0;
 			this.theShortestPath = new LinkedList<E>();
@@ -77,8 +78,14 @@ public class DirectedGraph<E extends Edge> {
 			this.theShortestPath = new LinkedList<E>(path.theShortestPath);
 			addpathentToShortestPath(theShortestPath, edge);
 
+		}*/
+		public ComparableDijkstraPath(int to, double weight, List<E> theShortestPath) {
+			this.to = to;
+			this.weight += weight; // plusa på hela vikten så att hela shortestPathvikten finns med
+			this.theShortestPath = theShortestPath;
 		}
-
+		
+			
 		public void addpathentToShortestPath(List<E> shPath, E edge) {
 			theShortestPath.add(edge);
 			this.weight += edge.getWeight();
