@@ -35,14 +35,15 @@ public class DirectedGraph<E extends Edge> {
 			 dE = prioQueue.poll();
 			if (!visitedNode[dE.to]) {
 				if (dE.to == to) {
-					dE.getPath().iterator();
+					return dE.getPath().iterator();
 				} else {
 					visitedNode[dE.to] = true;
 					for (E edge : this.edges[dE.to]) {
 						if (!visitedNode[edge.to]) {
 							dE = new ComparableDijkstraPath<E>(edge.to, dE.weight + edge.getWeight(), theShortestPath);
+							
 							prioQueue.add(dE);
-							theShortestPath.add(dE);
+							
 						}
 					}
 				}
@@ -66,7 +67,7 @@ public class DirectedGraph<E extends Edge> {
 		// utanför klassen eftersom dem är i en inre klass!
 		public int to;
 		public double weight;
-		//public List<E> theShortestPath = new LinkedList<E>();;
+		public List<E> theShortestPath = new LinkedList<E>();;
 
 		/*public ComparableDijkstraPath(int from) {
 			this.to = from;
@@ -85,12 +86,12 @@ public class DirectedGraph<E extends Edge> {
 		public ComparableDijkstraPath(int to, double weight, List<E> theShortestPath) {
 			this.to = to;
 			this.weight += weight; // plusa på hela vikten så att hela shortestPathvikten finns med
-			this.theShortestPath = theShortestPath;
+			theShortestPath = theShortestPath;
 		}
 		
 			
 		public void addpathentToShortestPath(List<E> shPath, E edge) {
-			theShortestPath.add(edge);
+			//theShortestPath.add(edge);
 			this.weight += edge.getWeight();
 			this.to = edge.to;
 		}
@@ -98,7 +99,7 @@ public class DirectedGraph<E extends Edge> {
 		public List<E> getPath() {
 			List<E> temp = new LinkedList<E>();
 
-			for (E path : this.theShortestPath) {
+			for (E path : theShortestPath) {
 				temp.add(path);
 			}
 
