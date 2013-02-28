@@ -8,13 +8,17 @@ public class DirectedGraph<E extends Edge> {
 	private int noOfNodes;
 	private PriorityQueue<ComparableDijkstraPath<E>> prioQueue;
 	private List<E> theShortestPath;
+	private PriorityQueue<CompKruskalEdge<E>> mstprioQueue;
+	private List<E>[] mstList;
 
 	public DirectedGraph(int noOfNodes) {
+		mstprioQueue = new PriorityQueue<CompKruskalEdge<E>>();
 		this.noOfNodes = noOfNodes;
 		this.prioQueue = new PriorityQueue<ComparableDijkstraPath<E>>();
 		graph = new List[noOfNodes];
 		for (int i = 0; i < noOfNodes; i++) {
 			graph[i] = new LinkedList<E>();
+
 		}
 	}
 
@@ -48,11 +52,40 @@ public class DirectedGraph<E extends Edge> {
 	}
 
 	public Iterator<E> minimumSpanningTree() {
+		mstList = new List[noOfNodes];
+		for (int i = 0; i < noOfNodes; i++) {
+			mstList[i] = new LinkedList<E>();
+		}
+
+		for (int i = 0; i < graph.length; i++) {
+			for (E edge : this.graph[i]) {
+				mstprioQueue.add(new CompKruskalEdge<E>(edge.from, edge.to,
+						edge.getWeight()));
+			}
+		}
+		while (mstprioQueue.size() != 0) {
+			CompKruskalEdge<E> cKe = mstprioQueue.poll();
+			
+		}
 		return null;
 	}
 
-	private class CompKruskalEdge {
-		
+
+	private class CompKruskalEdge<E extends Edge> implements
+			Comparable<CompKruskalEdge<E>> {
+		private int from;
+		private int to;
+		private double weight;
+
+		public CompKruskalEdge(int from, int to, double weight) {
+
+		}
+
+		@Override
+		public int compareTo(CompKruskalEdge<E> e) {
+			return Double.compare(weight, e.weight);
+
+		}
 	}
 
 	private class ComparableDijkstraPath<E extends Edge> implements
