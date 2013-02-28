@@ -9,7 +9,8 @@ public class DirectedGraph<E extends Edge> {
 	private PriorityQueue<ComparableDijkstraPath<E>> prioQueue;
 	private List<E> theShortestPath;
 	private PriorityQueue<CompKruskalEdge<E>> mstprioQueue;
-	private List<E>[] mstList;
+	private List<E>[] cc;
+	//private List<E> tempLongest, tempShortest;
 
 	public DirectedGraph(int noOfNodes) {
 		mstprioQueue = new PriorityQueue<CompKruskalEdge<E>>();
@@ -52,38 +53,57 @@ public class DirectedGraph<E extends Edge> {
 	}
 
 	public Iterator<E> minimumSpanningTree() {
-		mstList = new List[noOfNodes];
+		cc = new List[noOfNodes];
 		for (int i = 0; i < noOfNodes; i++) {
-			mstList[i] = new LinkedList<E>();
+			cc[i] = new LinkedList<E>();
 		}
 
 		for (int i = 0; i < graph.length; i++) {
 			for (E edge : this.graph[i]) {
-				mstprioQueue.add(new CompKruskalEdge<E>(edge.from, edge.to,
-						edge.getWeight()));
+				mstprioQueue.add(new CompKruskalEdge<E>(edge));
 			}
 		}
+
+		List<E> tempLongest = null;
+		List<E> tempShortest = null;
 		while (mstprioQueue.size() != 0) {
 			CompKruskalEdge<E> cKe = mstprioQueue.poll();
-			
+
+			if (!(cc[cKe.edge.from].contains(cKe.edge) && cc[cKe.edge.to]
+					.contains(cKe.edge))) {
+
+				if (cc[cKe.edge.from].size() >= cc[cKe.edge.to].size()) {
+					tempLongest = cc[cKe.edge.from];
+					tempShortest = cc[cKe.edge.to];
+
+				} else {
+					tempLongest = cc[cKe.edge.to];
+					tempShortest = cc[cKe.edge.from];
+				}
+
+				;
+				for (E edge : tempShortest) {
+					tempLongest.add(edge);
+				}
+				tempShortest = tempLongest;
+				tempLongest.add(cKe.edge);// 8
+			}
 		}
-		return null;
+		return tempLongest.iterator();
 	}
 
 
 	private class CompKruskalEdge<E extends Edge> implements
 			Comparable<CompKruskalEdge<E>> {
-		private int from;
-		private int to;
-		private double weight;
+		public E edge;
 
-		public CompKruskalEdge(int from, int to, double weight) {
-
+		public CompKruskalEdge(E edge) {
+			this.edge = edge;
 		}
 
 		@Override
 		public int compareTo(CompKruskalEdge<E> e) {
-			return Double.compare(weight, e.weight);
+			return Double.compare(e.edge.getWeight(), e.edge.getWeight());
 
 		}
 	}
