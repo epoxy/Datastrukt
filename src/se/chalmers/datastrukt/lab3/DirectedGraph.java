@@ -95,6 +95,12 @@ public class DirectedGraph<E extends Edge> {
 				}
 			}
 		}
+		/*
+		 * If the tree is not a complete minimumspanning tree null is returned
+		 */
+		if(noOfNodes-1!=tempLongest.size()){ 
+			return null;
+		}
 		return tempLongest.iterator();
 	}
 
@@ -109,7 +115,7 @@ public class DirectedGraph<E extends Edge> {
 
 		@Override
 		public int compareTo(CompKruskalEdge<E> e) {
-			return Double.compare(e.edge.getWeight(), e.edge.getWeight());
+			return Double.compare(edge.getWeight(), e.edge.getWeight());
 		}
 	}
 
