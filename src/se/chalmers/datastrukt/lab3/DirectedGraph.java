@@ -2,6 +2,13 @@ package se.chalmers.datastrukt.lab3;
 
 import java.util.*;
 
+/**
+ * A class that has two methods minimumspanningtree and Dijkstrapath
+ * 
+ * @author tomassellden and Anton Palmqvist group 36
+ * 
+ * @param <E>
+ */
 public class DirectedGraph<E extends Edge> {
 
 	private List<E>[] graph;
@@ -10,7 +17,8 @@ public class DirectedGraph<E extends Edge> {
 	private List<E> theShortestPath;
 	private PriorityQueue<CompKruskalEdge<E>> mstprioQueue;
 	private List<E>[] cc;
-	//private List<E> tempLongest, tempShortest;
+
+	// private List<E> tempLongest, tempShortest;
 
 	public DirectedGraph(int noOfNodes) {
 		mstprioQueue = new PriorityQueue<CompKruskalEdge<E>>();
@@ -52,6 +60,16 @@ public class DirectedGraph<E extends Edge> {
 
 	}
 
+	/**
+	 * Finds the minimumspanningtree for a connected weighted graph which forms
+	 * as a tree. So it finds a subset of all the edges in the graph, which
+	 * include every vertex, where the total weight is minimized.
+	 * 
+	 * @return Iterator<E> that contain a list which store the
+	 *         minimumspanningtree. return null if we didnt find the
+	 *         minimunspanningtree (our method can not handle unconnected
+	 *         graphs)
+	 */
 	public Iterator<E> minimumSpanningTree() {
 		cc = new List[noOfNodes];
 		for (int i = 0; i < noOfNodes; i++) {
@@ -68,7 +86,7 @@ public class DirectedGraph<E extends Edge> {
 		List<E> tempShortest = null;
 		while (mstprioQueue.size() != 0) {
 			CompKruskalEdge<E> cKe = mstprioQueue.poll();
-			if(cc[cKe.edge.from] != cc[cKe.edge.to]) {
+			if (cc[cKe.edge.from] != cc[cKe.edge.to]) {
 				if (!(cc[cKe.edge.from].contains(cKe.edge) && cc[cKe.edge.to]
 						.contains(cKe.edge))) {
 					int ishort = 0;
@@ -76,14 +94,13 @@ public class DirectedGraph<E extends Edge> {
 						tempLongest = cc[cKe.edge.from];
 						tempShortest = cc[cKe.edge.to];
 						ishort = cKe.edge.to;
-	
+
 					} else {
 						tempLongest = cc[cKe.edge.to];
 						tempShortest = cc[cKe.edge.from];
 						ishort = cKe.edge.from;
 					}
-					
-	
+
 					for (E edge : tempShortest) {
 						tempLongest.add(edge);
 						cc[edge.to] = tempLongest;
@@ -98,13 +115,19 @@ public class DirectedGraph<E extends Edge> {
 		/*
 		 * If the tree is not a complete minimumspanning tree null is returned
 		 */
-		if(noOfNodes-1!=tempLongest.size()){ 
+		if (noOfNodes - 1 != tempLongest.size()) {
 			return null;
 		}
 		return tempLongest.iterator();
 	}
 
-
+	/**
+	 * The method is used to compare all edges weight so we can store all edges
+	 * in the priorityqueue.
+	 * 
+	 * @param <E>
+	 * 
+	 */
 	private class CompKruskalEdge<E extends Edge> implements
 			Comparable<CompKruskalEdge<E>> {
 		public E edge;
