@@ -68,25 +68,32 @@ public class DirectedGraph<E extends Edge> {
 		List<E> tempShortest = null;
 		while (mstprioQueue.size() != 0) {
 			CompKruskalEdge<E> cKe = mstprioQueue.poll();
-
-			if (!(cc[cKe.edge.from].contains(cKe.edge) && cc[cKe.edge.to]
-					.contains(cKe.edge))) {
-
-				if (cc[cKe.edge.from].size() >= cc[cKe.edge.to].size()) {
-					tempLongest = cc[cKe.edge.from];
-					tempShortest = cc[cKe.edge.to];
-
-				} else {
-					tempLongest = cc[cKe.edge.to];
-					tempShortest = cc[cKe.edge.from];
+			if(cc[cKe.edge.from] != cc[cKe.edge.to]) {
+				if (!(cc[cKe.edge.from].contains(cKe.edge) && cc[cKe.edge.to]
+						.contains(cKe.edge))) {
+					int ishort = 0;
+					if (cc[cKe.edge.from].size() >= cc[cKe.edge.to].size()) {
+						tempLongest = cc[cKe.edge.from];
+						tempShortest = cc[cKe.edge.to];
+						ishort = cKe.edge.to;
+	
+					} else {
+						tempLongest = cc[cKe.edge.to];
+						tempShortest = cc[cKe.edge.from];
+						ishort = cKe.edge.from;
+					}
+					
+	
+					for (E edge : tempShortest) {
+						tempLongest.add(edge);
+						cc[edge.to] = tempLongest;
+						cc[edge.from] = tempLongest;
+					}
+					tempLongest.add(cKe.edge);// 8
+					//tempShortest.clear();
+					tempShortest = tempLongest;
+					cc[ishort] = tempLongest;
 				}
-
-				;
-				for (E edge : tempShortest) {
-					tempLongest.add(edge);
-				}
-				tempShortest = tempLongest;
-				tempLongest.add(cKe.edge);// 8
 			}
 		}
 		return tempLongest.iterator();
