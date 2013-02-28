@@ -52,7 +52,7 @@ public class DirectedGraph<E extends Edge> {
 	}
 
 	private class CompKruskalEdge {
-
+		
 	}
 
 	private class ComparableDijkstraPath<E extends Edge> implements
