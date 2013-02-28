@@ -90,7 +90,6 @@ public class DirectedGraph<E extends Edge> {
 						cc[edge.from] = tempLongest;
 					}
 					tempLongest.add(cKe.edge);// 8
-					//tempShortest.clear();
 					tempShortest = tempLongest;
 					cc[ishort] = tempLongest;
 				}
@@ -111,7 +110,6 @@ public class DirectedGraph<E extends Edge> {
 		@Override
 		public int compareTo(CompKruskalEdge<E> e) {
 			return Double.compare(e.edge.getWeight(), e.edge.getWeight());
-
 		}
 	}
 
