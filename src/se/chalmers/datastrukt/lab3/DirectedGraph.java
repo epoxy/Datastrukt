@@ -110,7 +110,7 @@ public class DirectedGraph<E extends Edge> {
 
 		@Override
 		public int compareTo(CompKruskalEdge<E> e) {
-			return Double.compare(e.edge.getWeight(), e.edge.getWeight());
+			return Double.compare(edge.getWeight(), e.edge.getWeight());
 
 		}
 	}
