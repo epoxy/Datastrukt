@@ -10,7 +10,6 @@ public class DirectedGraph<E extends Edge> {
 	private List<E> theShortestPath;
 	private PriorityQueue<CompKruskalEdge<E>> mstprioQueue;
 	private List<E>[] cc;
-	//private List<E> tempLongest, tempShortest;
 
 	public DirectedGraph(int noOfNodes) {
 		mstprioQueue = new PriorityQueue<CompKruskalEdge<E>>();
@@ -25,9 +24,16 @@ public class DirectedGraph<E extends Edge> {
 
 	public void addEdge(E e) {
 		graph[e.getSource()].add(e);
-
 	}
 
+	/**
+	 * Method calculating the shortest path from a chosen busstop(start-node)
+	 * to another chosen busstop(end-node). This is done by first adding a
+	 * nodes adjacent nodes to a priorityqueue. Then the 
+	 * @param from
+	 * @param to
+	 * @return
+	 */
 	public Iterator<E> shortestPath(int from, int to) {
 		boolean[] visitedNode = new boolean[noOfNodes];
 		prioQueue.add(new ComparableDijkstraPath<E>(from));
@@ -136,7 +142,6 @@ public class DirectedGraph<E extends Edge> {
 			this.weight = path.weight;
 			this.theShortestPath = new LinkedList<E>(path.theShortestPath);
 			addEdgeToShortestPath(edge);
-
 		}
 
 		public void addEdgeToShortestPath(E edge) {
@@ -147,11 +152,9 @@ public class DirectedGraph<E extends Edge> {
 
 		public List<E> getPath() {
 			List<E> temp = new LinkedList<E>();
-
 			for (E path : theShortestPath) {
 				temp.add(path);
 			}
-
 			return temp;
 		}
 
