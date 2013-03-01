@@ -18,7 +18,6 @@ public class DirectedGraph<E extends Edge> {
 		graph = new List[noOfNodes];
 		for (int i = 0; i < noOfNodes; i++) {
 			graph[i] = new LinkedList<E>();
-
 		}
 	}
 
@@ -28,8 +27,9 @@ public class DirectedGraph<E extends Edge> {
 
 	/**
 	 * Method calculating the shortest path from a chosen busstop(start-node)
-	 * to another chosen busstop(end-node). This is done by first adding a
-	 * nodes adjacent nodes to a priorityqueue. Then the 
+	 * to another chosen busstop(end-node). This is done by first adding the
+	 * start-node to a priorityqueue. Then the first element of the queue, in
+	 * this case the start-node, is polled. 
 	 * @param from
 	 * @param to
 	 * @return
@@ -82,14 +82,14 @@ public class DirectedGraph<E extends Edge> {
 						tempLongest = cc[cKe.edge.from];
 						tempShortest = cc[cKe.edge.to];
 						ishort = cKe.edge.to;
-	
+
 					} else {
 						tempLongest = cc[cKe.edge.to];
 						tempShortest = cc[cKe.edge.from];
 						ishort = cKe.edge.from;
 					}
-					
-	
+
+
 					for (E edge : tempShortest) {
 						tempLongest.add(edge);
 						cc[edge.to] = tempLongest;
@@ -112,7 +112,7 @@ public class DirectedGraph<E extends Edge> {
 
 
 	private class CompKruskalEdge<E extends Edge> implements
-			Comparable<CompKruskalEdge<E>> {
+	Comparable<CompKruskalEdge<E>> {
 		public E edge;
 
 		public CompKruskalEdge(E edge) {
@@ -126,7 +126,7 @@ public class DirectedGraph<E extends Edge> {
 	}
 
 	private class ComparableDijkstraPath<E extends Edge> implements
-			Comparable<ComparableDijkstraPath<E>> {
+	Comparable<ComparableDijkstraPath<E>> {
 		public int last;
 		public double weight;
 		public List<E> theShortestPath = new LinkedList<E>();;
